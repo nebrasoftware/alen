@@ -1,0 +1,20 @@
+/* Navbar */
+.navbar {
+  display: flex;
+}
+
+.navbar ul {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+.user {
+  background-color: rgba(163,18,24,1);
+}
+
+.user a {
+  color: rgba(255,255,255,1);
+}

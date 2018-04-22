@@ -1,0 +1,12 @@
+/* Link */
+.link {
+  padding: 1rem;
+  color: #363636;
+  font-family: 'Lulo-Bold', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  color: rgba(163,18,24,1);
+}

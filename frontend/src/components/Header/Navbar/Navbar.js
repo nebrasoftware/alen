@@ -40,8 +40,8 @@ const Navbar = () => {
 
   return(
     <nav className={style.navbar}>
-      <ul>{menu}</ul>
-      <ul>
+      <ul className={style.menu} role="navigation">{menu}</ul>
+      <ul className={style.user}>
         <li>
           <Link href="#" active label="Registro/Login" />
         </li>

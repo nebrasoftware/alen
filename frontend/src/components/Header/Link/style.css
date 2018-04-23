@@ -1,8 +1,9 @@
 /* Link */
 .link {
+  display: flex;
+  align-items: center;
   padding: 1rem;
   color: #363636;
-  font-family: 'Lulo-Bold', sans-serif;
   text-decoration: none;
   text-transform: uppercase;
 }

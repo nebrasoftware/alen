@@ -6,7 +6,7 @@ url = "https://pypi.org/simple"
 [dev-packages]
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
 
 [packages]
 flask = "*"
@@ -19,3 +19,4 @@ flask-bcrypt = "*"
 authlib = "*"
 flask-cors = "*"
 flask-migrate = "*"
+pyjwt = "*"

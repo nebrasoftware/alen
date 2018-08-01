@@ -4,10 +4,9 @@ from flask import Flask, render_template
 
 from server import users
 from server.extensions import bcrypt, db, migrate, cors
-from server.settings import DevConfig
 
 
-def create_app(config_object=DevConfig):
+def create_app(config_object):
     """An application factory, as explained here:
      http://flask.pocoo.org/docs/patterns/appfactories/.
     :param config_object: The configuration object to use.

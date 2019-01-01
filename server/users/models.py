@@ -90,6 +90,17 @@ class User(SurrogatePK, Model):
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
 
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'email': self.email,
+            'created_at': self.created_at,
+            'active': self.active,
+            'is_admin': self.is_admin
+        }
+
 
 class BlacklistToken(SurrogatePK, Model):
     """

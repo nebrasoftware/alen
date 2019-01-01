@@ -24,7 +24,6 @@ function login(email, password) {
             if (user && user.token) {
                 localStorage.setItem('user', JSON.stringify(user));
             }
-
             return user;
         })
 }
@@ -40,7 +39,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/users', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/users/allusers', requestOptions).then(handleResponse, handleError);
 }
 
 function getById(id) {

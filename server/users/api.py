@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, make_response
 from .models import User
 from server.extensions import db, bcrypt
-from sqlalchemy.exc import IntegrityError
+
 
 blueprint = Blueprint('user', __name__, url_prefix='/api/v1/users')
 
@@ -26,6 +26,7 @@ def register():
             }
             return make_response(jsonify(responseObject)), 201
         except Exception as e:
+            print(e)
             responseObject = {
                 'status': 'fail',
                 'message': 'Some error occurred. Please try again.'
@@ -45,7 +46,6 @@ def login():
     print(data)
     try:
         user = User.query.filter_by(email=data.get('email')).first()
-        print(user)
         if user and bcrypt.check_password_hash(
             user.password, data.get('password')
         ):
@@ -54,8 +54,10 @@ def login():
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully logged in.',
-                    'token': token.decode()
+                    'token': token.decode(),
+                    'user': user.serialize
                 }
+                print(responseObject)
                 return make_response(jsonify(responseObject)), 200
         else:
             responseObject = {
@@ -70,3 +72,9 @@ def login():
             'message': 'Try fail'
         }
         return make_response(jsonify(responseObject)), 500
+
+
+@blueprint.route("/allusers", methods=['GET'])
+def getAll():
+    users = User.query.all()
+    return make_response(jsonify([u.serialize for u in users])), 200

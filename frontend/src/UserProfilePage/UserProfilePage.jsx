@@ -1,27 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
- 
 import { userActions } from '../_actions';
- 
+
 class UserProfilePage extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(userActions.getById(6))
+  }
 
-    componentDidMount () {
-        const { id } = this.user.user.id
-    }
-
-    render() {
-        console.log(this.props)
-        const { user } = this.props;
-        return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>User Profile</h2>
-                <div></div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <h1>User Profile Page</h1>
+      </div>
+    )
+  }
 }
- 
+
+
 function mapStateToProps(state) {
     const { authentication } = state;
     const { user } = authentication;
@@ -29,6 +24,6 @@ function mapStateToProps(state) {
         user
     };
 }
- 
+
 const connectedUserProfilePage = connect(mapStateToProps)(UserProfilePage);
-export { connectedUserProfilePage as UserProfilePage }
+export { connectedUserProfilePage as UserProfilePage };

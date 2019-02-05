@@ -17,7 +17,7 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch(config.apiUrl + '/users/authenticate', requestOptions)
+    return fetch(config.apiUrl + '/auth/login', requestOptions)
         .then(handleResponse, handleError)
         .then(user => {
             // login successul if there's a jwt token in the response
@@ -39,7 +39,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/users/allusers', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/users', requestOptions).then(handleResponse, handleError);
 }
 
 function getById(id) {
@@ -48,7 +48,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/users/' + _id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/user/' + id, requestOptions).then(handleResponse, handleError);
 }
 
 function register(user) {
@@ -58,7 +58,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/users/register', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/register', requestOptions).then(handleResponse, handleError);
 }
 
 function update(user) {
@@ -68,7 +68,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/users/' + user.id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/user' + user.id, requestOptions).then(handleResponse, handleError);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -78,7 +78,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/users/' + id, requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/user' + id, requestOptions).then(handleResponse, handleError);
 }
 
 function handleResponse(response) {

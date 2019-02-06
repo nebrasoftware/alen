@@ -4,7 +4,8 @@ import { userActions } from '../_actions';
 
 class UserProfilePage extends React.Component {
   componentDidMount() {
-    this.props.dispatch(userActions.getById(6))
+    console.log('hola')
+    this.props.dispatch(userActions.userStatus());
   }
 
   render() {

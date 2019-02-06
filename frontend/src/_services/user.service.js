@@ -4,6 +4,7 @@ export const userService = {
     login,
     logout,
     register,
+    status,
     getAll,
     getById,
     update,
@@ -26,6 +27,15 @@ function login(email, password) {
             }
             return user;
         })
+}
+
+function status() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(config.apiUrl + '/auth/status', requestOptions).then(handleResponse, handleError);
 }
 
 function logout() {

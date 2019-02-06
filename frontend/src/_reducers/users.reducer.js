@@ -24,6 +24,19 @@ export function users(state = {}, action) {
             : user
         )
       };
+    case userConstants.STATUS_REQUEST:
+      return {
+        loading: true
+      };
+    case userConstants.STATUS_SUCCESS:
+      return {
+        item: action.user
+      };
+    case userConstants.STATUS_FAILURE:{
+      return {
+        error: action.error
+      };
+    }
     case userConstants.DELETE_SUCCESS:
       // remove deleted user from state
       return {

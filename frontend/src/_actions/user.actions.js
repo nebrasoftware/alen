@@ -7,6 +7,7 @@ export const userActions = {
     login,
     logout,
     register,
+    userStatus,
     getAll,
     getById,
     delete: _delete
@@ -60,6 +61,22 @@ function register(user) {
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function userStatus() {
+    return dispatch => {
+        dispatch(request());
+
+        userService.status()
+            .then(
+                user => dispatch(success(user)),
+                error => dispatch(failure(error))
+            )
+    };
+
+    function request(user) { return { type: userConstants.STATUS_REQUEST, user } }
+    function success(user) { return { type: userConstants.STATUS_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.STATUS_FAILURE, error } }
 }
 
 function getAll() {

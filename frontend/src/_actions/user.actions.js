@@ -19,9 +19,9 @@ function login(email, password) {
 
         userService.login(email, password)
             .then(
-                user => { 
-                    dispatch(success(user));
-                    history.push('/perfil');
+                auth => {
+                    dispatch(success(auth));
+                    auth.is_admin ? history.push('/panel') : history.push('/perfil');
                 },
                 error => {
                     dispatch(failure(error));
@@ -30,8 +30,8 @@ function login(email, password) {
             );
     };
 
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+    function request(auth) { return { type: userConstants.LOGIN_REQUEST, auth } }
+    function success(auth) { return { type: userConstants.LOGIN_SUCCESS, auth } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 

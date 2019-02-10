@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
-class UserProfilePage extends React.Component {
+class AdminDashboardPage extends React.Component {
   componentDidMount() {
     // this.props.dispatch(userActions.userStatus());
   }
@@ -10,7 +10,7 @@ class UserProfilePage extends React.Component {
   render() {
     return (
       <div>
-        <h1>User Profile Page</h1>
+        <h1>Admin Dashboard Page</h1>
       </div>
     )
   }
@@ -25,5 +25,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedUserProfilePage = connect(mapStateToProps)(UserProfilePage);
-export { connectedUserProfilePage as UserProfilePage };
+const connectedAdminDashboardPage = connect(mapStateToProps)(AdminDashboardPage);
+export { connectedAdminDashboardPage as AdminDashboardPage };

@@ -20,12 +20,12 @@ function login(email, password) {
 
     return fetch(config.apiUrl + '/auth/login', requestOptions)
         .then(handleResponse, handleError)
-        .then(user => {
+        .then(auth => {
             // login successul if there's a jwt token in the response
-            if (user && user.token) {
-                localStorage.setItem('user', JSON.stringify(user));
+            if (auth && auth.token) {
+                localStorage.setItem('auth', JSON.stringify(auth));
             }
-            return user;
+            return auth;
         })
 }
 
@@ -35,7 +35,11 @@ function status() {
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/auth/status', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/auth/status', requestOptions)
+        .then(handleResponse, handleError)
+        .then(userData => {
+            return userData;
+        })
 }
 
 function logout() {

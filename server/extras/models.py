@@ -24,7 +24,8 @@ class Extra(SurrogatePK, Model):
 
     def __init__(self, vat_number, insurance_number, **kwargs):
         """Create instance."""
-        db.Model.__init(self, vat_number=vat_number, insurance_number=insurance_number, **kwargs)
-    
+        db.Model.__init(self, vat_number=vat_number,
+                        insurance_number=insurance_number, **kwargs)
+
     def __repr__(self):
         return '<Extra({vat_number})>'.format(vat_number=self.vat_number)

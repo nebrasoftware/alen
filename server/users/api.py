@@ -53,6 +53,7 @@ def login():
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully logged in.',
+                    'is_admin': user.is_admin,
                     'token': token.decode()
                 }
                 return make_response(jsonify(responseObject)), 200
@@ -84,7 +85,7 @@ def get():
             user = User.query.filter_by(id=resp).first()
             responseObject = {
                 'status': 'success',
-                'data': {
+                'user': {
                     'id': user.id,
                     'email': user.email,
                     'is_admin': user.is_admin,

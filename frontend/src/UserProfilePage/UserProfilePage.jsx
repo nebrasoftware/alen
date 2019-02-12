@@ -3,17 +3,58 @@ import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
 class UserProfilePage extends React.Component {
-  componentDidMount() {
-    // this.props.dispatch(userActions.userStatus());
-  }
+    constructor(props) {
+        super(props);
 
-  render() {
-    return (
-      <div>
-        <h1>User Profile Page</h1>
-      </div>
-    )
-  }
+        this.state = {
+            extra: {
+                userId: '',
+                vatNumber: '',
+                insuranceNumber: '',
+                name: '',
+                lastName: '',
+                birthday: '',
+                phone: '',
+                address: '',
+                postalCode: '',
+                countryId: '',
+            },
+            submitted: false
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        const { name, value } = event.target;
+        const { extra } = this.state;
+        this.setState({
+            extra: {
+                ...extra,
+                [name]: value
+            }
+        });
+    }
+ 
+    handleSubmit(event) {
+        event.preventDefault();
+ 
+        this.setState({ submitted: true });
+        const { extra } = this.state;
+        const { dispatch } = this.props;
+        if (user.email && user.password) {
+            dispatch(userActions.addExtraInfo(extra));
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>User Profile Page</h1>
+            </div>
+        )
+    }
 }
 
 

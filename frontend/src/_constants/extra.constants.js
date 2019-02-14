@@ -1,0 +1,5 @@
+export const extraConstants = {
+    ADD_REQUEST: 'EXTRAS_ADD_REQUEST',
+    ADD_SUCCESS: 'EXTRAS_ADD_SUCCESS',
+    ADD_FAILURE: 'EXTRAS_ADD_FAILURE',
+};

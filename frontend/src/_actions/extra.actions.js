@@ -6,20 +6,21 @@ export const extraActions = {
 };
 
 function addExtra(extra) {
-    dispatch(request(extra));
+    return dispatch => {
+        dispatch(request(extra));
 
-    extraService.register(extra)
-        .then(
-            extra => {
-                dispatch(success());
-            },
-            error => {
-                dispatch(failure(error));
-            }
-        );
-};
+        extraService.addExtra(extra)
+            .then(
+                extra => {
+                    dispatch(success());
+                },
+                error => {
+                    dispatch(failure(error));
+                }
+            );
+    };
 
-function request(extra) { return { type: extraConstants.ADD_REQUEST, extra } }
-function success(extra) { return { type: extraConstants.ADD_SUCCESS, extra } }
-function failure(error) { return { type: extraConstants.ADD_FAILURE, error } }
+    function request(extra) { return { type: extraConstants.ADD_REQUEST, extra } }
+    function success(extra) { return { type: extraConstants.ADD_SUCCESS, extra } }
+    function failure(error) { return { type: extraConstants.ADD_FAILURE, error } }
 }

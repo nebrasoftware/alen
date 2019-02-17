@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userActions } from '../_actions';
+import { extraActions } from '../_actions';
 
 class UserProfilePage extends React.Component {
     constructor(props) {
@@ -8,7 +8,7 @@ class UserProfilePage extends React.Component {
 
         this.state = {
             extra: {
-                userId: '',
+                // userId: '',
                 vatNumber: '',
                 insuranceNumber: '',
                 name: '',
@@ -16,8 +16,8 @@ class UserProfilePage extends React.Component {
                 birthday: '',
                 phone: '',
                 address: '',
-                postalCode: '',
-                countryId: '',
+                postalCode: ''
+                // countryId: '',
             },
             submitted: false
         }
@@ -55,10 +55,10 @@ class UserProfilePage extends React.Component {
             <div className="col-md-6 col-md-offset-3">
                 <h2>User Profile Page</h2>
                 <form action="" onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="id">User ID</label>
-                        <input name="id" className="form-control" type="text" value={extra.userId} onChange={this.handleChange}/>
-                    </div>
+                    {/* <div className="form-group">
+                        <label htmlFor="userId">User ID</label>
+                        <input name="userId" className="form-control" type="text" value={extra.userId} onChange={this.handleChange}/>
+                    </div> */}
                     <div className="form-group">
                         <label htmlFor="vatNumber">Vat Number</label>
                         <input name="vatNumber" className="form-control" type="text" value={extra.vatNumber} onChange={this.handleChange}/>
@@ -91,10 +91,10 @@ class UserProfilePage extends React.Component {
                         <label htmlFor="postalCode">Postal Code</label>
                         <input name="postalCode" className="form-control" type="text" value={extra.postalCode} onChange={this.handleChange}/>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="countryId">Country ID</label>
                         <input name="countryId" className="form-control" type="text" value={extra.countryId} onChange={this.handleChange}/>
-                    </div>
+                    </div> */}
                     <div className="form-group">
                         <button className="btn btn-primary">Guardar</button>
                         {addingExtra &&

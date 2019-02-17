@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
-from flask import Flask, render_template
+from flask import Flask
 
 from server import users
+from server import extras
 from server.extensions import bcrypt, db, migrate, cors
 
 
@@ -32,4 +33,5 @@ def register_extensions(app):
 def register_blueprints(app):
     """Register Flask blueprints."""
     app.register_blueprint(users.api.blueprint)
+    app.register_blueprint(extras.api.blueprint)
     return None

@@ -4,7 +4,7 @@ from flask import Flask
 
 from server import users
 from server import extras
-from server.extensions import bcrypt, db, migrate, cors
+from server.extensions import bcrypt, db, migrate, cors, ma
 
 
 def create_app(config_object):
@@ -27,6 +27,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     cors.init_app(app)
+    ma.init_app(app)
     return None
 
 

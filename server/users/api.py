@@ -1,9 +1,13 @@
 from flask import Blueprint, jsonify, request, make_response
-from .models import User
+from .models import User, UserSchema
 from server.extensions import db, bcrypt
 
 
 blueprint = Blueprint('user', __name__, url_prefix='/api/v1/auth')
+
+
+users_schema = UserSchema(many=True)
+user_schema = UserSchema()
 
 
 @blueprint.route("/register", methods=['POST'])
@@ -109,4 +113,11 @@ def get():
 @blueprint.route("/users", methods=['GET'])
 def getAll():
     users = User.query.all()
-    return make_response(jsonify([u.serialize for u in users])), 200
+    users = users_schema.dump(users).data
+    responseObject = {
+        'status': 'success',
+        'data': users
+    }
+    return make_response(jsonify(responseObject)), 200
+    # return make_response(jsonify([u.serialize for u in users])), 200
+    # return {'status': 'success', 'data': users}, 200

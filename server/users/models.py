@@ -7,7 +7,7 @@ from server.database import Column, Model, SurrogatePK
 from server.database import db
 from server.extensions import ma
 from server.extensions import bcrypt
-from marshmallow import Schema, fields
+from marshmallow import fields
 from flask import current_app
 
 

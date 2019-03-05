@@ -111,7 +111,7 @@ def get():
 
 
 @blueprint.route("/users", methods=['GET'])
-def getAll():
+def getUsers():
     users = User.query.all()
     users = users_schema.dump(users).data
     responseObject = {
@@ -119,5 +119,14 @@ def getAll():
         'data': users
     }
     return make_response(jsonify(responseObject)), 200
-    # return make_response(jsonify([u.serialize for u in users])), 200
-    # return {'status': 'success', 'data': users}, 200
+
+
+@blueprint.route("/user/<id>", methods=['GET'])
+def getUser(id):
+    user = User.query.filter_by(id=id).first()
+    user = user_schema.dump(user).data
+    responseObject = {
+        'status': 'success',
+        'data': user
+    }
+    return make_response(jsonify(responseObject)), 200

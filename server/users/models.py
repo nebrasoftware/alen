@@ -5,8 +5,8 @@ import jwt
 
 from server.database import Column, Model, SurrogatePK
 from server.database import db
-from server.extensions import ma
 from server.extensions import bcrypt
+from server.extensions import ma
 from marshmallow import fields
 from flask import current_app
 
@@ -15,8 +15,6 @@ class User(SurrogatePK, Model):
     """A user of the app."""
 
     __tablename__ = 'users'
-    name = Column(db.String(80), nullable=False)
-    last_name = Column(db.String(150), nullable=False)
     email = Column(db.String(80), unique=True, nullable=False)
     password = Column(db.String(255), nullable=True)
     created_at = Column(db.DateTime, nullable=False,
@@ -85,8 +83,6 @@ class User(SurrogatePK, Model):
 
 class UserSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
-    name = fields.String()
-    last_name = fields.String()
     email = fields.Email()
     created_at = fields.DateTime()
     is_admin = fields.Boolean()

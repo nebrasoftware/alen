@@ -16,7 +16,7 @@ class Extra(SurrogatePK, Model):
     user_id = reference_col('users', nullable=True)
     user = relationship('User', backref='extras')
     vat_number = Column(db.String(11), unique=True, nullable=True)
-    insurance_number = Column(db.String(20), unique=True, nullable=True)
+    insurance_number = Column(db.BigInteger(), unique=True, nullable=True)
     name = Column(db.String(80), nullable=True)
     last_name = Column(db.String(255), nullable=True)
     email = Column(db.String(80), unique=True, nullable=True)
@@ -24,13 +24,16 @@ class Extra(SurrogatePK, Model):
     phone = Column(db.Integer(), nullable=True)
     address = Column(db.String(200), nullable=True)
     postal_code = Column(db.Integer(), nullable=True)
+    country_id = reference_col('countries', nullable=True)
+    country = relationship('Country', backref='extras')
     created_at = Column(db.DateTime, nullable=True,
                         default=dt.datetime.utcnow)
 
     def __init__(self, vat_number, insurance_number, **kwargs):
         """Create instance."""
-        db.Model.__init__(self, vat_number=vat_number,
-                        insurance_number=insurance_number, **kwargs)
+        db.Model.__init__(self,
+                          vat_number=vat_number,
+                          insurance_number=insurance_number, **kwargs)
 
     def __repr__(self):
         return '<Extra({vat_number})>'.format(vat_number=self.vat_number)

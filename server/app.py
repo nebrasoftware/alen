@@ -2,8 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask
 
-from server import users
-from server import extras
+from server import users, extras
 from server.extensions import bcrypt, db, migrate, cors, ma
 
 

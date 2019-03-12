@@ -18,7 +18,8 @@ def register():
         try:
             user = User(
                 email=data["email"],
-                password=data["password"]
+                password=data["password"],
+                is_admin=data["is_admin"]
             )
             db.session.add(user)
             db.session.commit()

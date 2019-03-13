@@ -64,7 +64,6 @@ class Extra(SurrogatePK, Model):
 
 class ExtraSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
-    # user_id = fields.Nested(UserSchema, only=["user_id"])
     vat_number = fields.String()
     insurance_number = fields.String()
     name = fields.String()
@@ -75,3 +74,9 @@ class ExtraSchema(ma.Schema):
     address = fields.String()
     postal_code = fields.Integer()
     created_at = fields.DateTime()
+    extra_experience = fields.Boolean()
+    dance_experience = fields.Boolean()
+    singing_experience = fields.Boolean()
+    sea_experience = fields.Boolean()
+    waiter_experience = fields.Boolean()
+    other_experience = fields.Boolean()

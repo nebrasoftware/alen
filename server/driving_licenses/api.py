@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, make_response
 from .models import DrivingLicense, DrivingLicenseSchema
-from server.extensions import db
 
 
 blueprint = Blueprint('driving_licenses', __name__,

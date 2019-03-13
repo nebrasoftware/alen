@@ -36,5 +36,8 @@ def register_blueprints(app):
     app.register_blueprint(users.api.blueprint)
     app.register_blueprint(extras.api.blueprint)
     app.register_blueprint(eye_colors.api.blueprint)
+    app.register_blueprint(hair_colors.api.blueprint)
     app.register_blueprint(driving_licenses.api.blueprint)
+    app.register_blueprint(localities.api.blueprint)
+    app.register_blueprint(provinces.api.blueprint)
     return None

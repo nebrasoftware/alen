@@ -10,8 +10,8 @@ from marshmallow import fields
 class DrivingLicense(SurrogatePK, Model):
     """The driving license."""
 
-    __tablename__ = 'driving_license'
-    type = Column(db.String(3), nullable=True)
+    __tablename__ = 'driving_licenses_types'
+    type = Column(db.String(4), nullable=True)
 
     def __init__(self, type, **kwargs):
         """Create instance."""

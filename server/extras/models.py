@@ -40,8 +40,10 @@ class Extra(SurrogatePK, Model):
     hair_color = relationship('HairColor', backref='extras')
     profession = Column(db.String(80), nullable=True)
     availability = Column(db.Boolean(), nullable=True)
-    driving_license_id = reference_col('driving_license', nullable=True)
-    driving_license = relationship('DrivingLicense', backref='extras')
+    driving_license = Column(db.Boolean(), nullable=True)
+    driving_license_type_id = reference_col('driving_licenses_types',
+                                            nullable=True)
+    driving_license_type = relationship('DrivingLicense', backref='extras')
     hobbies = Column(db.String(200), nullable=True)
     extra_experience = Column(db.Boolean(), nullable=True)
     dance_experience = Column(db.Boolean(), nullable=True)

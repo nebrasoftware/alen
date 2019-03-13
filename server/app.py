@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask
 
-from server import eye_colors, hair_colors, driving_license
+from server import eye_colors, hair_colors, driving_licenses
 from server import users, extras, localities, provinces
 from server.extensions import bcrypt, db, migrate, cors, ma
 
@@ -36,4 +36,5 @@ def register_blueprints(app):
     app.register_blueprint(users.api.blueprint)
     app.register_blueprint(extras.api.blueprint)
     app.register_blueprint(eye_colors.api.blueprint)
+    app.register_blueprint(driving_licenses.api.blueprint)
     return None

@@ -4,6 +4,7 @@ from flask import Flask
 
 from server import eye_colors, hair_colors, driving_licenses
 from server import users, extras, localities, provinces
+from server import tshirt_sizes, trouser_sizes, foot_sizes
 from server.extensions import bcrypt, db, migrate, cors, ma
 
 
@@ -40,4 +41,7 @@ def register_blueprints(app):
     app.register_blueprint(driving_licenses.api.blueprint)
     app.register_blueprint(localities.api.blueprint)
     app.register_blueprint(provinces.api.blueprint)
+    app.register_blueprint(tshirt_sizes.api.blueprint)
+    app.register_blueprint(trouser_sizes.api.blueprint)
+    app.register_blueprint(foot_sizes.api.blueprint)
     return None

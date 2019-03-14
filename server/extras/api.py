@@ -1,34 +1,34 @@
 from flask import Blueprint, jsonify, request, make_response
 from .models import Extra
-from server.users.models import User
 from server.extensions import db
 
 
-blueprint = Blueprint('extra', __name__, url_prefix='/api/v1/extra')
+blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
 
 
 @blueprint.route("/add", methods=['POST'])
-def addra():
+def add():
     data = request.get_json()
-    user = User.query.filter_by(vat_number=data.get('vat_number')).first()
-    if not user:
+    print(data)
+    extra = Extra.query.filter_by(vat_number=data.get('vat_number')).first()
+    if not extra:
         try:
             extra = Extra(
                 name=data["name"],
                 last_name=data["last_name"],
                 age=data["age"],
-                brithday=data["birthday"],
+                birthday=data["birthday"],
                 phone=data["phone"],
                 genre=data["genre"],
                 address=data["address"],
-                locality=data["locality"],
-                province=data["province"],
+                locality_id=data["locality_id"],
+                province_id=data["province_id"],
                 nationality=data["nationality"],
                 insurance_number=data["insurance_number"],
                 vat_number=data["vat_number"],
                 height=data["height"],
                 weight=data["weight"],
-                tshirt_size=data["shirt_size"],
+                tshirt_size=data["tshirt_size"],
                 trouser_size=data["trouser_size"],
                 foot_size=data["foot_size"],
                 eye_color=data["eye_color"],
@@ -39,8 +39,8 @@ def addra():
                 hobbies=data["hobbies"],
                 extra_experience=data["extra_experience"],
                 dance_experience=data["dance_experience"],
-                singing_experience=data["signing_experience"],
-                sea_experience=data["sea_experiene"],
+                singing_experience=data["singing_experience"],
+                sea_experience=data["sea_experience"],
                 waiter_experience=data["waiter_experience"],
                 other_experience=data["other_experience"]
             )

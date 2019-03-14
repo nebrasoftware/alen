@@ -6,7 +6,6 @@ from server.database import Column, Model, SurrogatePK
 from server.database import db, relationship, reference_col
 from server.extensions import ma
 from marshmallow import fields
-# from server.users.models import UserSchema
 
 
 class Extra(SurrogatePK, Model):
@@ -22,18 +21,21 @@ class Extra(SurrogatePK, Model):
     phone = Column(db.Integer(), nullable=True)
     genre = Column(db.String(1), nullable=True)
     address = Column(db.String(200), nullable=True)
-    locality_id = reference_col('localities', nullable=True)
-    locality = relationship('Locality', backref='extras')
     province_id = reference_col('provinces', nullable=True)
     province = relationship('Province', backref='extras')
+    locality_id = reference_col('localities', nullable=True)
+    locality = relationship('Locality', backref='extras')
     nationality = Column(db.String(20), nullable=True)
     vat_number = Column(db.String(11), unique=True, nullable=True)
     insurance_number = Column(db.BigInteger(), unique=True, nullable=True)
     height = Column(db.Integer(), nullable=True)
     weight = Column(db.Integer(), nullable=True)
-    tshirt_size = Column(db.String(3), nullable=True)
-    trouser_size = Column(db.Integer(), nullable=True)
-    foot_size = Column(db.Integer(), nullable=True)
+    tshirt_size_id = reference_col('tshirt_sizes', nullable=True)
+    tshirt_size = relationship('TshirtSize', backref='extras')
+    trouser_size_id = reference_col('trouser_sizes', nullable=True)
+    trouser_size = relationship('TrouserSize', backref='extras')
+    foot_size_id = reference_col('foot_sizes', nullable=True)
+    foot_size = relationship('FootSize', backref='extras')
     eye_color_id = reference_col('eye_colors', nullable=True)
     eye_color = relationship('EyeColor', backref='extras')
     hair_color_id = reference_col('hair_colors', nullable=True)

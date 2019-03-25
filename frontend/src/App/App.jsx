@@ -26,23 +26,19 @@ class App extends React.Component {
     render() {
         const { alert } = this.props;
         return (
-            <div className="jumbotron">
-                <div className="container">
-                    <div className="col-sm-8 col-sm-offset-2">
-                        {alert.message &&
-                            <div className={`alert ${alert.type}`}>{alert.message}</div>
-                        }
-                        <Router history={history}>
-                            <div>
-                                <Route exact path="/" component={HomePage} />
-                                <Route path="/login" component={LoginPage} />
-                                <Route path='/register' component={RegisterPage} />
-                                <PrivateRoute path="/perfil" component={UserProfilePage} />
-                                <AdminPrivateRoute path="/panel" component={AdminDashboardPage} />
-                            </div>
-                        </Router>
+            <div>
+                {alert.message &&
+                    <div className={`alert ${alert.type}`}>{alert.message}</div>
+                }
+                <Router history={history}>
+                    <div>
+                        <Route exact path="/" component={HomePage} />
+                        <Route path="/login" component={LoginPage} />
+                        <Route path='/register' component={RegisterPage} />
+                        <PrivateRoute path="/perfil" component={UserProfilePage} />
+                        <AdminPrivateRoute path="/panel" component={AdminDashboardPage} />
                     </div>
-                </div>
+                </Router>
             </div>
         );
     }

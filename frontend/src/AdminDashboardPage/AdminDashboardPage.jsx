@@ -1,17 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userActions } from '../_actions';
+import { extraActions } from '../_actions';
+
+import Container from '../_components/Container';
+import Content from '../_components/Content';
+import Sidebar from '../_components/Sidebar';
+
+const routes = [
+  {
+    path: "/",
+    title: 'extras',
+    exact: true,
+    main: () => <h2>Extras</h2>
+  },
+  {
+    path: "/",
+    title: 'usuarios',
+    exact: true,
+    main: () => <h2>Usuarios</h2>
+  }
+];
 
 class AdminDashboardPage extends React.Component {
   componentDidMount() {
-    // this.props.dispatch(userActions.userStatus());
+    this.props.dispatch(extraActions.getAllExtras());
   }
 
   render() {
     return (
-      <div>
-        <h1>Admin Dashboard Page</h1>
-      </div>
+      <Container>
+        <Sidebar items={routes} />
+        <Content>
+         
+        </Content>
+      </Container>
     )
   }
 }

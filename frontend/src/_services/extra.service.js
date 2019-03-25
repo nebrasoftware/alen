@@ -1,7 +1,8 @@
 import { authHeader, config } from '../_helpers';
 
 export const extraService = {
-    addExtra
+    addExtra,
+    getAllExtras
 };
 
 function addExtra(extra) {
@@ -12,7 +13,16 @@ function addExtra(extra) {
     };
     console.log(requestOptions)
 
-    return fetch(config.apiUrl + '/extras/add_extra', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/extras/add', requestOptions).then(handleResponse, handleError);
+}
+
+function getAllExtras() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(config.apiUrl + '/extras/get_all', requestOptions).then(handleResponse, handleError);
 }
 
 function handleResponse(response) {

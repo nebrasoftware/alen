@@ -1,9 +1,12 @@
 from flask import Blueprint, jsonify, request, make_response
-from .models import Extra
+from .models import Extra, ExtraSchema
 from server.extensions import db
 
 
 blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
+
+extras_schema = ExtraSchema(many=True)
+extra_schema = ExtraSchema()
 
 
 @blueprint.route("/add", methods=['POST'])
@@ -64,3 +67,14 @@ def add():
             'message': 'User already exists. Please log in.'
         }
         return make_response(jsonify(responseObject)), 202
+
+
+@blueprint.route("/get_all", methods=['GET'])
+def getAll():
+    extras = Extra.query.all()
+    extras = extras_schema.dump(extras).data
+    responseObject = {
+        'status': 'success',
+        'data': extras
+    }
+    return make_response(jsonify(responseObject)), 200

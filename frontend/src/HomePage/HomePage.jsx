@@ -6,6 +6,7 @@ import { userActions } from '../_actions';
 
 import Header from '../_components/Header';
 
+
 class HomePage extends React.Component {
     render() {
         return (

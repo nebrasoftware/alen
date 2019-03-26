@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import rem from '../../_utils/rem';
 import Logo from '../Logo';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const SidebarContainer = styled.div`
     grid-column: sidebar;

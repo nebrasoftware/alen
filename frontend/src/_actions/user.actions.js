@@ -21,7 +21,7 @@ function login(email, password) {
             .then(
                 auth => {
                     dispatch(success(auth));
-                    auth.is_admin ? history.push('/panel') : history.push('/perfil');
+                    auth.is_admin ? history.push('/panel/extras') : history.push('/perfil');
                 },
                 error => {
                     dispatch(failure(error));

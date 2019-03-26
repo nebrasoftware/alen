@@ -5,19 +5,19 @@ import { extraActions } from '../_actions';
 import Container from '../_components/Container';
 import Content from '../_components/Content';
 import Sidebar from '../_components/Sidebar';
+import ExtrasContent from './ExtrasContent';
 
 const routes = [
   {
-    path: "/",
+    path: "/panel/extras",
     title: 'extras',
     exact: true,
-    main: () => <h2>Extras</h2>
+    component: () => <ExtrasContent></ExtrasContent>
   },
   {
-    path: "/",
+    path: "/panel/usuarios",
     title: 'usuarios',
-    exact: true,
-    main: () => <h2>Usuarios</h2>
+    component: () => <h2>Usuarios</h2>
   }
 ];
 
@@ -30,9 +30,7 @@ class AdminDashboardPage extends React.Component {
     return (
       <Container>
         <Sidebar items={routes} />
-        <Content>
-         
-        </Content>
+        <Content items={routes} />
       </Container>
     )
   }

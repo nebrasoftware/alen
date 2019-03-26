@@ -36,7 +36,8 @@ class App extends React.Component {
                         <Route path="/login" component={LoginPage} />
                         <Route path='/register' component={RegisterPage} />
                         <PrivateRoute path="/perfil" component={UserProfilePage} />
-                        <AdminPrivateRoute path="/panel" component={AdminDashboardPage} />
+                        <AdminPrivateRoute path="/panel/extras" component={AdminDashboardPage} />
+                        <AdminPrivateRoute path="/panel/usuarios" component={AdminDashboardPage} />
                     </div>
                 </Router>
             </div>

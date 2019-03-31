@@ -25,7 +25,7 @@ function login(email, password) {
                 },
                 error => {
                     dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    // dispatch(alertActions.error(error));
                 }
             );
     };
@@ -49,11 +49,11 @@ function register(user) {
                 user => {
                     dispatch(success());
                     history.push('/login');
-                    dispatch(alertActions.success('Registration succesful'));
+                    // dispatch(alertActions.success('Registration succesful'));
                 },
                 error => {
                     dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    // dispatch(alertActions.error(error));
                 }
             );
     };

@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { extraActions } from '../_actions';
 
 import Container from '../_components/Container';
 import Content from '../_components/Content';
 import Sidebar from '../_components/Sidebar';
-import ExtrasContent from './ExtrasContent';
+import { ExtrasContent } from './ExtrasContent';
 
 const routes = [
   {
@@ -22,9 +21,6 @@ const routes = [
 ];
 
 class AdminDashboardPage extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(extraActions.getAllExtras());
-  }
 
   render() {
     return (
@@ -38,10 +34,11 @@ class AdminDashboardPage extends React.Component {
 
 
 function mapStateToProps(state) {
-    const { authentication } = state;
+    const { authentication, extras } = state;
     const { user } = authentication;
     return {
-        user
+        user,
+        extras
     };
 }
 

@@ -71,7 +71,6 @@ function register(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    console.log(requestOptions);
 
     return fetch(config.apiUrl + '/auth/register', requestOptions).then(handleResponse, handleError);
 }

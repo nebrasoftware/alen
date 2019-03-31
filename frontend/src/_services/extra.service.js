@@ -11,7 +11,6 @@ function addExtra(extra) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(extra)
     };
-    console.log(requestOptions)
 
     return fetch(config.apiUrl + '/extras/add', requestOptions).then(handleResponse, handleError);
 }

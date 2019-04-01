@@ -5,24 +5,31 @@ import Container from '../_components/Container';
 import Content from '../_components/Content';
 import Sidebar from '../_components/Sidebar';
 import { ExtrasContent } from './ExtrasContent';
+import { UsersContent } from './UsersContent';
+import { AddNewExtraContent } from './AddNewExtraContent';
 
 const routes = [
   {
     path: "/panel/extras",
     title: 'extras',
-    exact: true,
     component: () => <ExtrasContent></ExtrasContent>
+  },
+  {
+    path: "/panel/nuevo-extra",
+    title: 'nuevo extra',
+    component: () => <AddNewExtraContent></AddNewExtraContent>
   },
   {
     path: "/panel/usuarios",
     title: 'usuarios',
-    component: () => <h2>Usuarios</h2>
+    component: () => <UsersContent></UsersContent>
   }
 ];
 
 class AdminDashboardPage extends React.Component {
 
   render() {
+    console.log(this.props)
     return (
       <Container>
         <Sidebar items={routes} />
@@ -34,11 +41,10 @@ class AdminDashboardPage extends React.Component {
 
 
 function mapStateToProps(state) {
-    const { authentication, extras } = state;
+    const { authentication } = state;
     const { user } = authentication;
     return {
-        user,
-        extras
+        user
     };
 }
 

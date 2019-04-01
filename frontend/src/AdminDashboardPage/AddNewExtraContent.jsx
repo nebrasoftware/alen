@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { extraActions } from '../_actions';
 
-class ExtrasContent extends React.Component {
+class AddNewExtraContent extends React.Component {
   componentDidMount() {
     this.props.dispatch(extraActions.getAll());
   }
@@ -12,7 +12,7 @@ class ExtrasContent extends React.Component {
     const { extras } = this.props;
     return (
       <div>
-        <h1>Extras Content</h1>
+        <h1>New extra</h1>
         {extras.loading && <em>Loading extras...</em>}
         {extras.items &&
           <ul>
@@ -35,5 +35,5 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedExtrasContent = connect(mapStateToProps)(ExtrasContent);
-export { connectedExtrasContent as ExtrasContent };
+const connectedAddNewExtraContent = connect(mapStateToProps)(AddNewExtraContent);
+export { connectedAddNewExtraContent as AddNewExtraContent };

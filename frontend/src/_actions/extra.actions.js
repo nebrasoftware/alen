@@ -3,7 +3,7 @@ import { extraService } from '../_services';
 
 export const extraActions = {
     addExtra,
-    getAllExtras
+    getAll
 };
 
 function addExtra(extra) {
@@ -26,7 +26,7 @@ function addExtra(extra) {
     function failure(error) { return { type: extraConstants.ADD_FAILURE, error } }
 }
 
-function getAllExtras() {
+function getAll() {
     return dispatch => {
         dispatch(request());
 

@@ -2,11 +2,11 @@ import { extraConstants } from '../_constants';
 import { extraService } from '../_services';
 
 export const extraActions = {
-    addExtra,
+    add,
     getAll
 };
 
-function addExtra(extra) {
+function add(extra) {
     return dispatch => {
         dispatch(request(extra));
 

@@ -29,7 +29,6 @@ const routes = [
 class AdminDashboardPage extends React.Component {
 
   render() {
-    console.log(this.props)
     return (
       <Container>
         <Sidebar items={routes} />

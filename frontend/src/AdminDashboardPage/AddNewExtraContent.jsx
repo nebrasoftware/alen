@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { extraActions } from '../_actions';
+import { extraActions, wearActions } from '../_actions';
 
 class AddNewExtraContent extends React.Component {
   constructor(props) {
@@ -68,14 +68,31 @@ class AddNewExtraContent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.dispatch(wearActions.getTshirtSizes());
+    // this.props.dispatch(wearActions.getTrouserSizes());
+    // this.props.dispatch(wearActions.getFootSizes());
+  }
+
   render() {
-    const { adding } = this.props;
+    const { adding, tshirt } = this.props;
     const { extra, submitted } = this.state;
+    console.log(tshirt);
     return (
       <div>
         <h1>New extra</h1>
         <div className="container">
           <div className="row">
+            {tshirt.loading && <em>Loading tshirt...</em>}
+            {tshirt.items &&
+              <ul>
+                {tshirt.items.data.map((t, index) =>
+                  <li key={t.id}>
+                      {t.name}
+                  </li>
+                )}
+              </ul>
+            }
             <div className="col-8 offset-2">
               <form name="addExtraForm" onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !extra.name ? ' has-error' : '')}>
@@ -290,9 +307,10 @@ class AddNewExtraContent extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { adding } = state;
+  const { adding, tshirt } = state;
   return {
-    adding
+    adding,
+    tshirt
   };
 }
 

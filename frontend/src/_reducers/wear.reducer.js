@@ -8,7 +8,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.TSHIRT_SUCCESS:
       return {
-        items: action.tshirt
+        tshirts: action.tshirt
       };
     case wearConstants.TSHIRT_FAILURE:
       return {
@@ -20,7 +20,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.TROUSER_SUCCESS:
       return {
-        items: action.trouser
+        trousers: action.trouser
       };
     case wearConstants.TROUSER_FAILURE:
       return {
@@ -32,7 +32,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.FOOT_SUCCESS:
       return {
-        items: action.foot
+        foots: action.foot
       };
     case wearConstants.FOOT_FAILURE:
       return {

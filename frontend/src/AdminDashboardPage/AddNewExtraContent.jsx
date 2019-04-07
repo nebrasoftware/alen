@@ -70,25 +70,24 @@ class AddNewExtraContent extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(wearActions.getTshirtSizes());
-    // this.props.dispatch(wearActions.getTrouserSizes());
-    // this.props.dispatch(wearActions.getFootSizes());
+    this.props.dispatch(wearActions.getTrouserSizes());
+    this.props.dispatch(wearActions.getFootSizes());
   }
 
   render() {
-    const { adding, tshirt } = this.props;
+    const { adding, wear } = this.props;
     const { extra, submitted } = this.state;
-    console.log(tshirt);
     return (
       <div>
         <h1>New extra</h1>
         <div className="container">
           <div className="row">
-            {tshirt.loading && <em>Loading tshirt...</em>}
-            {tshirt.items &&
+            {wear.loading && <em>Loading tshirt...</em>}
+            {wear.tshirts &&
               <ul>
-                {tshirt.items.data.map((t, index) =>
+                {wear.tshirts.data.map((t, index) =>
                   <li key={t.id}>
-                      {t.name}
+                      {t.size}
                   </li>
                 )}
               </ul>
@@ -307,10 +306,10 @@ class AddNewExtraContent extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { adding, tshirt } = state;
+  const { adding, wear } = state;
   return {
     adding,
-    tshirt
+    wear
   };
 }
 

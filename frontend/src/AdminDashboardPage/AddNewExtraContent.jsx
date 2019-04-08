@@ -82,7 +82,7 @@ class AddNewExtraContent extends React.Component {
         <h1>New extra</h1>
         <div className="container">
           <div className="row">
-            {wear.loading && <em>Loading tshirt...</em>}
+            {/* {wear.loading && <em>Loading tshirt...</em>}
             {wear.tshirts &&
               <ul>
                 {wear.tshirts.data.map((t, index) =>
@@ -91,7 +91,7 @@ class AddNewExtraContent extends React.Component {
                   </li>
                 )}
               </ul>
-            }
+            } */}
             <div className="col-8 offset-2">
               <form name="addExtraForm" onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !extra.name ? ' has-error' : '')}>

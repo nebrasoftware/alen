@@ -34,9 +34,9 @@ function getTrouserSizes() {
             );
     };
 
-    function request() { return { type: wearConstants.TSHIRT_REQUEST } }
-    function success(trouser) { return { type: wearConstants.TSHIRT_SUCCESS, trouser } }
-    function failure(error) { return { type: wearConstants.TSHIRT_FAILURE, error } }
+    function request() { return { type: wearConstants.TROUSER_REQUEST } }
+    function success(trouser) { return { type: wearConstants.TROUSER_SUCCESS, trouser } }
+    function failure(error) { return { type: wearConstants.TROUSER_FAILURE, error } }
 }
 
 function getFootSizes() {

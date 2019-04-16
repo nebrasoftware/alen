@@ -19,7 +19,6 @@ def add():
             extra = Extra(
                 name=data["name"],
                 last_name=data["last_name"],
-                age=data["age"],
                 birthday=data["birthday"],
                 phone=data["phone"],
                 genre=data["genre"],

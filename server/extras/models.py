@@ -16,7 +16,6 @@ class Extra(SurrogatePK, Model):
     user = relationship('User', backref='extras')
     name = Column(db.String(80), nullable=True)
     last_name = Column(db.String(255), nullable=True)
-    age = Column(db.Integer(), nullable=True)
     birthday = Column(db.DateTime, nullable=True)
     phone = Column(db.Integer(), nullable=True)
     genre = Column(db.String(1), nullable=True)

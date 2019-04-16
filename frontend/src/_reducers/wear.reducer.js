@@ -8,6 +8,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.TSHIRT_SUCCESS:
       return Object.assign({}, state, {
+        loading: false,
         tshirts: action.tshirt
       });
     case wearConstants.TSHIRT_FAILURE:
@@ -20,6 +21,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.TROUSER_SUCCESS:
       return Object.assign({}, state, {
+        loading: false,
         trousers: action.trouser
       });
     case wearConstants.TROUSER_FAILURE:
@@ -32,6 +34,7 @@ export function wear(state = {}, action) {
       };
     case wearConstants.FOOT_SUCCESS:
       return Object.assign({}, state, {
+        loading: false,
         foots: action.foot
       });
     case wearConstants.FOOT_FAILURE:

@@ -10,7 +10,7 @@ colors_schema = HairColorSchema(many=True)
 color_schema = HairColorSchema()
 
 
-@blueprint.route("/colors", methods=['GET'])
+@blueprint.route("/get_colors", methods=['GET'])
 def getLicenses():
     hair_colors = HairColor.query.all()
     hair_colors = colors_schema.dump(hair_colors).data

@@ -18,7 +18,7 @@ class Extra(SurrogatePK, Model):
     last_name = Column(db.String(255), nullable=True)
     birthday = Column(db.DateTime, nullable=True)
     phone = Column(db.Integer(), nullable=True)
-    genre = Column(db.String(1), nullable=True)
+    genre = Column(db.String(6), nullable=True)
     address = Column(db.String(200), nullable=True)
     province_id = reference_col('provinces', nullable=True)
     province = relationship('Province', backref='extras')
@@ -40,7 +40,7 @@ class Extra(SurrogatePK, Model):
     hair_color_id = reference_col('hair_colors', nullable=True)
     hair_color = relationship('HairColor', backref='extras')
     profession = Column(db.String(80), nullable=True)
-    availability = Column(db.Boolean(), nullable=True)
+    availability = Column(db.String(255), nullable=True)
     driving_license = Column(db.Boolean(), nullable=True)
     driving_license_type_id = reference_col('driving_licenses_types',
                                             nullable=True)

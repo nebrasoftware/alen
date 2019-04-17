@@ -1,26 +1,16 @@
 import { authHeader, config } from '../_helpers';
 
-export const bodyService = {
-    getHairColors,
-    getEyesColors
+export const drivingLicensesService = {
+    getAllLicenses
 };
 
-function getHairColors() {
+function getAllLicenses() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(config.apiUrl + '/hair_colors/get_colors', requestOptions).then(handleResponse, handleError);
-}
-
-function getEyesColors() {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(config.apiUrl + '/eye_colors/get_colors', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/driving_licenses/licenses', requestOptions).then(handleResponse, handleError);
 }
 
 function handleResponse(response) {

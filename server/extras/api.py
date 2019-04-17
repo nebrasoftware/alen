@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, make_response
 from .models import Extra, ExtraSchema
 from server.extensions import db
-
+from server.database import convert_json, camel_to_snake, snake_to_camel
 
 blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
 
@@ -11,7 +11,7 @@ extra_schema = ExtraSchema()
 
 @blueprint.route("/add", methods=['POST'])
 def add():
-    data = request.get_json()
+    data = convert_json(request.get_json(), camel_to_snake)
     print(data)
     extra = Extra.query.filter_by(vat_number=data.get('vat_number')).first()
     if not extra:

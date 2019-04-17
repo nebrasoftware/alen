@@ -12,6 +12,7 @@ class Config(object):
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # SQLALCHEMY_DATABASE_URI = 'mysql://alen:Alen2019!@199.247.17.73/alendb?charset=utf8'
     SQLALCHEMY_DATABASE_URI = 'mysql://alen:Alen2019!@199.247.17.73/alendb'
 
 

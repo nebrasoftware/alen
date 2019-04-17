@@ -9,7 +9,7 @@ provinces_schema = ProvinceSchema(many=True)
 province_schema = ProvinceSchema()
 
 
-@blueprint.route("/provinces", methods=['GET'])
+@blueprint.route("/get_all", methods=['GET'])
 def getProvinces():
     provinces = Province.query.all()
     provinces = provinces_schema.dump(provinces).data

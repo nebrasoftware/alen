@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { extraActions, wearActions } from '../_actions';
+import { extraActions, wearActions, bodyActions, populationsActions, drivingLicensesActions } from '../_actions';
 
 class AddNewExtraContent extends React.Component {
   constructor(props) {
@@ -11,14 +11,13 @@ class AddNewExtraContent extends React.Component {
       extra: {
         name: '',
         lastName: '',
-        age: '',
         insuranceNumber: '',
         vatNumber: '',
         birthday: '',
         genre: '',
         phone: '',
         address: '',
-        localityId: '',
+        localityId: null,
         provinceId: '',
         nationality: '',
         height: '',
@@ -32,11 +31,11 @@ class AddNewExtraContent extends React.Component {
         availability: '',
         drivingLicenseTypeId: '',
         hobbies: '',
-        extraExperience: '',
-        danceExperience: '',
-        singingExperience: '',
-        seaExperience: '',
-        waiterExperience: '',
+        extraExperience: 0,
+        danceExperience: 0,
+        singingExperience: 0,
+        seaExperience: 0,
+        waiterExperience: 0,
         otherExperience: ''
       },
       submitted: false
@@ -47,8 +46,11 @@ class AddNewExtraContent extends React.Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
     const { extra } = this.state;
+
     this.setState({
       extra: {
         ...extra,
@@ -72,10 +74,16 @@ class AddNewExtraContent extends React.Component {
     this.props.dispatch(wearActions.getTshirtSizes());
     this.props.dispatch(wearActions.getTrouserSizes());
     this.props.dispatch(wearActions.getFootSizes());
+    this.props.dispatch(wearActions.getFootSizes());
+    this.props.dispatch(bodyActions.getHairColors());
+    this.props.dispatch(bodyActions.getEyesColors());
+    // this.props.dispatch(populationsActions.getAllLocalities());
+    this.props.dispatch(populationsActions.getAllProvinces());
+    this.props.dispatch(drivingLicensesActions.getAllLicenses());
   }
 
   render() {
-    const { adding, wear } = this.props;
+    const { adding, wear, body, populations, drivingLicenses } = this.props;
     const { extra, submitted } = this.state;
     return (
       <div>
@@ -128,7 +136,7 @@ class AddNewExtraContent extends React.Component {
                   <div className="col-12 col-md-4">
                     <div className={'form-group' + (submitted && !extra.email ? ' has-error' : '')}>
                       <label htmlFor="">Fecha de nacimiento</label>
-                      <input type="text" className="form-control" name="birthday" value={extra.birthday} onChange={this.handleChange} />
+                      <input type="date" className="form-control" name="birthday" value={extra.birthday} onChange={this.handleChange} />
                       {submitted && !extra.birthday &&
                         <div className="help-block">Email is required</div>
                       }
@@ -165,21 +173,29 @@ class AddNewExtraContent extends React.Component {
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="col-12 col-md-4">
+                  {/* <div className="col-12 col-md-4">
                     <div className={'form-group' + (submitted && !extra.localityId ? ' has-error' : '')}>
                       <label htmlFor="">Localidad</label>
-                      <input type="text" className="form-control" name="localityId" value={extra.localityId} onChange={this.handleChange} />
-                      {submitted && !extra.localityId &&
-                        <div className="help-block">Email is required</div>
+                      {populations.loading && <em>Loading localities...</em>}
+                      {populations.localities &&
+                        <select name="tshirt" className="form-control" onChange={this.handleChange}>
+                          {populations.localities.data.map((t) =>
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          )}
+                        </select>
                       }
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-12 col-md-4">
                     <div className={'form-group' + (submitted && !extra.provinceId ? ' has-error' : '')}>
                       <label htmlFor="">Provincia</label>
-                      <input type="text" className="form-control" name="provinceId" value={extra.provinceId} onChange={this.handleChange} />
-                      {submitted && !extra.provinceId &&
-                        <div className="help-block">Email is required</div>
+                      {populations.loading && <em>Loading provinces...</em>}
+                      {populations.provinces &&
+                        <select name="provinceId" className="form-control" value={extra.provinceId} onChange={this.handleChange}>
+                          {populations.provinces.data.map((t) =>
+                            <option value={t.id}>{t.name}</option>
+                          )}
+                        </select>
                       }
                     </div>
                   </div>
@@ -194,7 +210,7 @@ class AddNewExtraContent extends React.Component {
                   </div>
                 </div>
                 <div className="form-row">
-                  <div className="col-12 col-md-6">
+                  <div className="col-12 col-md-3">
                     <div className={'form-group' + (submitted && !extra.height ? ' has-error' : '')}>
                       <label htmlFor="">Altura</label>
                       <input type="text" className="form-control" name="height" value={extra.height} onChange={this.handleChange} />
@@ -203,12 +219,38 @@ class AddNewExtraContent extends React.Component {
                       }
                     </div>
                   </div>
-                  <div className="col-12 col-md-6">
+                  <div className="col-12 col-md-3">
                     <div className={'form-group' + (submitted && !extra.weight ? ' has-error' : '')}>
                       <label htmlFor="">Peso</label>
                       <input type="text" className="form-control" name="weight" value={extra.weight} onChange={this.handleChange} />
                       {submitted && !extra.weight &&
                         <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3">
+                    <div className={'form-group' + (submitted && !extra.eyeColorId ? ' has-error' : '')}>
+                      <label htmlFor="">Color de ojos</label>
+                      {body.loading && <em>Loading eyes...</em>}
+                      {body.eyes &&
+                        <select name="eyeColorId" className="form-control" value={extra.eyeColorId} onChange={this.handleChange}>
+                          {body.eyes.data.map((t) =>
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          )}
+                        </select>
+                      }
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3">
+                    <div className={'form-group' + (submitted && !extra.hairColorId ? ' has-error' : '')}>
+                      <label htmlFor="">Color de pelo</label>
+                      {body.loading && <em>Loading hairs...</em>}
+                      {body.hairs &&
+                        <select name="hairColorId" className="form-control" value={extra.hairColorId} onChange={this.handleChange}>
+                          {body.hairs.data.map((t) =>
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          )}
+                        </select>
                       }
                     </div>
                   </div>
@@ -219,16 +261,12 @@ class AddNewExtraContent extends React.Component {
                       <label htmlFor="">Talla de camiseta</label>
                       {wear.loading && <em>Loading tshirt...</em>}
                       {wear.tshirts &&
-                        <select name="tshirt" className="form-control" onChange={this.handleChange}>
+                        <select name="tshirtSizeId" className="form-control" value={extra.tshirtSizeId} onChange={this.handleChange}>
                           {wear.tshirts.data.map((t) =>
                             <option key={t.id} value={t.id}>{t.size}</option>
                           )}
                         </select>
                       }
-                      {/* <input type="text"className="form-control" name="tshirtSizeId" value={extra.tshirtSizeId} onChange={this.handleChange} />
-                    {submitted && !extra.tshirtSizeId &&
-                      <div className="help-block">Email is required</div>
-                    } */}
                     </div>
                   </div>
                   <div className="col-12 col-md-4">
@@ -236,15 +274,12 @@ class AddNewExtraContent extends React.Component {
                       <label htmlFor="">Talla de pantalón</label>
                       {wear.loading && <em>Loading tshirt...</em>}
                       {wear.trousers &&
-                        <select name="trouser" className="form-control" onChange={this.handleChange}>
+                        <select name="trouserSizeId" className="form-control" value={extra.trouserSizeId} onChange={this.handleChange}>
                           {wear.trousers.data.map((t) =>
                             <option key={t.id} value={t.id}>{t.size}</option>
                           )}
                         </select>
                       }
-                      {/* {submitted && !extra.trouserSizeId &&
-                    <div className="help-block">Email is required</div>
-                  } */}
                     </div>
                   </div>
                   <div className="col-12 col-md-4">
@@ -252,52 +287,44 @@ class AddNewExtraContent extends React.Component {
                       <label htmlFor="">Talla de pie</label>
                       {wear.loading && <em>Loading tshirt...</em>}
                       {wear.foots &&
-                        <select name="tshirt" className="form-control" onChange={this.handleChange}>
+                        <select name="footSizeId" className="form-control" value={extra.footSizeId} onChange={this.handleChange}>
                           {wear.foots.data.map((t) =>
                             <option key={t.id} value={t.id}>{t.size}</option>
                           )}
                         </select>
                       }
-                      {/* {submitted && !extra.footSizeId &&
-                    <div className="help-block">Email is required</div>
-                  } */}
                     </div>
                   </div>
                 </div>
-                div.form-row>div.
-                <div className={'form-group' + (submitted && !extra.eyeColorId ? ' has-error' : '')}>
-                  <label htmlFor="">Color de ojos</label>
-                  <input type="text" className="form-control" name="eyeColorId" value={extra.eyeColorId} onChange={this.handleChange} />
-                  {submitted && !extra.eyeColorId &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.hairColorId ? ' has-error' : '')}>
-                  <label htmlFor="">Color de pelo</label>
-                  <input type="text" className="form-control" name="hairColorId" value={extra.hairColorId} onChange={this.handleChange} />
-                  {submitted && !extra.hairColorId &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.profession ? ' has-error' : '')}>
-                  <label htmlFor="">Profesión</label>
-                  <input type="text" className="form-control" name="profession" value={extra.profession} onChange={this.handleChange} />
-                  {submitted && !extra.profession &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.availability ? ' has-error' : '')}>
-                  <label htmlFor="">Disponibilidad</label>
-                  <input type="text" className="form-control" name="availability" value={extra.availability} onChange={this.handleChange} />
-                  {submitted && !extra.availability &&
-                    <div className="help-block">Email is required</div>
-                  }
+                <div className="form-row">
+                  <div className="col-12 col-md-6">
+                    <div className={'form-group' + (submitted && !extra.profession ? ' has-error' : '')}>
+                      <label htmlFor="">Profesión</label>
+                      <input type="text" className="form-control" name="profession" value={extra.profession} onChange={this.handleChange} />
+                      {submitted && !extra.profession &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className={'form-group' + (submitted && !extra.availability ? ' has-error' : '')}>
+                      <label htmlFor="">Disponibilidad</label>
+                      <input type="text" className="form-control" name="availability" value={extra.availability} onChange={this.handleChange} />
+                      {submitted && !extra.availability &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
                 </div>
                 <div className={'form-group' + (submitted && !extra.drivingLicenseTypeId ? ' has-error' : '')}>
                   <label htmlFor="">Carnet de conducir</label>
-                  <input type="text" className="form-control" name="drivingLicenseTypeId" value={extra.drivingLicenseTypeId} onChange={this.handleChange} />
-                  {submitted && !extra.drivingLicenseTypeId &&
-                    <div className="help-block">Email is required</div>
+                  {drivingLicenses.loading && <em>Loading tshirt...</em>}
+                  {drivingLicenses.types &&
+                    <select name="drivingLicenseTypeId" className="form-control" value={extra.drivingLicenseTypeId} onChange={this.handleChange}>
+                      {drivingLicenses.types.data.map((t) =>
+                        <option key={t.id} value={t.id}>{t.type}</option>
+                      )}
+                    </select>
                   }
                 </div>
                 <div className={'form-group' + (submitted && !extra.hobbies ? ' has-error' : '')}>
@@ -307,53 +334,83 @@ class AddNewExtraContent extends React.Component {
                     <div className="help-block">Email is required</div>
                   }
                 </div>
-                <div className={'form-group' + (submitted && !extra.extraExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Experiencia como extra</label>
-                  <input type="text" className="form-control" name="extraExperience" value={extra.extraExperience} onChange={this.handleChange} />
-                  {submitted && !extra.extraExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
+                <div className="form-row">
+                  <div className="col">
+                    <div className={'form-group' + (submitted && !extra.extraExperience ? ' has-error' : '')}>
+                      <div className="form-check">
+                        <input className="form-check-input" name="extraExperience" type="checkbox" checked={extra.extraExperience} onChange={this.handleChange} />
+                        <label className="form-check-label" htmlFor="">Extra</label>
+                      </div>
+                      {submitted && !extra.extraExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className={'form-group' + (submitted && !extra.danceExperience ? ' has-error' : '')}>
+                      <div className="form-check">
+                        <input className="form-check-input" name="danceExperience" type="checkbox" checked={extra.danceExperience} onChange={this.handleChange} />
+                        <label className="form-check-label" htmlFor="">Baile</label>
+                      </div>
+                      {submitted && !extra.danceExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className={'form-group' + (submitted && !extra.singingExperience ? ' has-error' : '')}>
+                      <div className="form-check">
+                        <input className="form-check-input" name="singingExperience" type="checkbox" checked={extra.singingExperience} onChange={this.handleChange} />
+                        <label className="form-check-label" htmlFor="">Canto</label>
+                      </div>
+                      {submitted && !extra.singingExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className={'form-group' + (submitted && !extra.seaExperience ? ' has-error' : '')}>
+                      <div className="form-check">
+                        <input className="form-check-input" name="seaExperience" type="checkbox" checked={extra.seaExperience} onChange={this.handleChange} />
+                        <label className="form-check-label" htmlFor="">Mar</label>
+                      </div>
+                      {submitted && !extra.seaExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className={'form-group' + (submitted && !extra.waiterExperience ? ' has-error' : '')}>
+                      <div className="form-check">
+                        <input className="form-check-input" name="waiterExperience" type="checkbox" checked={extra.waiterExperience} onChange={this.handleChange} />
+                        <label className="form-check-label" htmlFor="">Camarero</label>
+                      </div>
+                      {submitted && !extra.waiterExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
                 </div>
-                <div className={'form-group' + (submitted && !extra.danceExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Experiencia baile</label>
-                  <input type="text" className="form-control" name="danceExperience" value={extra.danceExperience} onChange={this.handleChange} />
-                  {submitted && !extra.danceExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
+                <div className="form-row">
+                  <div className="col-12">
+                    <div className={'form-group' + (submitted && !extra.otherExperience ? ' has-error' : '')}>
+                      <label htmlFor="">Otra Experiencia</label>
+                      <input type="text" className="form-control" name="otherExperience" value={extra.otherExperience} onChange={this.handleChange} />
+                      {submitted && !extra.otherExperience &&
+                        <div className="help-block">Email is required</div>
+                      }
+                    </div>
+                  </div>
                 </div>
-                <div className={'form-group' + (submitted && !extra.singingExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Experiencia canto</label>
-                  <input type="text" className="form-control" name="singingExperience" value={extra.singingExperience} onChange={this.handleChange} />
-                  {submitted && !extra.singingExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.seaExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Experiencia mar</label>
-                  <input type="text" className="form-control" name="seaExperience" value={extra.seaExperience} onChange={this.handleChange} />
-                  {submitted && !extra.seaExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.waiterExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Experiencia camarero</label>
-                  <input type="text" className="form-control" name="waiterExperience" value={extra.waiterExperience} onChange={this.handleChange} />
-                  {submitted && !extra.waiterExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className={'form-group' + (submitted && !extra.otherExperience ? ' has-error' : '')}>
-                  <label htmlFor="">Otra Experiencia</label>
-                  <input type="text" className="form-control" name="otherExperience" value={extra.otherExperience} onChange={this.handleChange} />
-                  {submitted && !extra.otherExperience &&
-                    <div className="help-block">Email is required</div>
-                  }
-                </div>
-                <div className="form-group">
-                  <button className="btn btn-primary">Añadir extra</button>
-                  {adding &&
-                    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                  }
+                <div className="form-row">
+                  <div className="col">
+                    <div className="form-group">
+                      <button className="btn btn-primary">Añadir extra</button>
+                      {adding &&
+                        <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                      }
+                    </div>
+                  </div>
                 </div>
               </form>
             </div>
@@ -365,10 +422,13 @@ class AddNewExtraContent extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { adding, wear } = state;
+  const { adding, wear, body, populations, drivingLicenses } = state;
   return {
     adding,
-    wear
+    wear,
+    body,
+    populations,
+    drivingLicenses
   };
 }
 

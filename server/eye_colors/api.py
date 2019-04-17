@@ -9,7 +9,7 @@ colors_schema = EyeColorSchema(many=True)
 color_schema = EyeColorSchema()
 
 
-@blueprint.route("/colors", methods=['GET'])
+@blueprint.route("/get_colors", methods=['GET'])
 def getLicenses():
     eye_colors = EyeColor.query.all()
     eye_colors = colors_schema.dump(eye_colors).data

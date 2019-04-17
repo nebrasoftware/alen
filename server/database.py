@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """Database module, including the SQLAlchemy database object and
 DB-related utilities."""
+import re
 from .compat import basestring
 from .extensions import db
+
 
 # Alias common SQLAlchemy names
 Column = db.Column
@@ -72,3 +74,22 @@ def reference_col(tablename, nullable=False, pk_name='id', **kwargs):
     return Column(
         db.ForeignKey('{0}.{1}'.format(tablename, pk_name)),
         nullable=nullable, **kwargs)
+
+
+camel_pat = re.compile(r'([A-Z])')
+under_pat = re.compile(r'_([a-z])')
+
+
+def camel_to_snake(name):
+    return camel_pat.sub(lambda x: '_' + x.group(1).lower(), name)
+
+
+def snake_to_camel(name):
+    return under_pat.sub(lambda x: x.group(1).upper(), name)
+
+
+def convert_json(d, convert):
+    new_d = {}
+    for k, v in d.items():
+        new_d[convert(k)] = convert_json(v,convert) if isinstance(v,dict) else v
+    return new_d

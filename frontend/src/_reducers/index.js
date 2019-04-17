@@ -6,6 +6,9 @@ import { extras } from './extras.reducer';
 import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import { wear } from './wear.reducer';
+import { body } from './body.reducer';
+import { populations } from './populations.reducer';
+import { drivingLicenses } from './drivingLicenses.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,7 +16,10 @@ const rootReducer = combineReducers({
   extras,
   users,
   alert,
-  wear
+  wear,
+  body,
+  populations,
+  drivingLicenses
 });
 
 export default rootReducer;

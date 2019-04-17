@@ -9,7 +9,7 @@ localities_schema = LocalitySchema(many=True)
 locality_schema = LocalitySchema()
 
 
-@blueprint.route("/localities", methods=['GET'])
+@blueprint.route("/get_all", methods=['GET'])
 def getLocalities():
     localities = Locality.query.all()
     localities = localities_schema.dump(localities).data

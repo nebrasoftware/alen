@@ -59,7 +59,7 @@ class AddNewExtraContent extends React.Component {
 
       this.setState({
         extra: {
-          ...extra,
+          ...extra, 
           [name]: images.file
         }
       });

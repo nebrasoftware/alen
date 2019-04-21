@@ -44,7 +44,9 @@ def add():
                 singing_experience=data["singing_experience"],
                 sea_experience=data["sea_experience"],
                 waiter_experience=data["waiter_experience"],
-                other_experience=data["other_experience"]
+                other_experience=data["other_experience"],
+                face_image=data["face_image"],
+                body_image=data["body_image"]
             )
             db.session.add(extra)
             db.session.commit()
@@ -72,8 +74,11 @@ def add():
 def getAll():
     extras = Extra.query.all()
     extras = extras_schema.dump(extras).data
+    data = []
+    for e in extras:
+        data.append(convert_json(e, snake_to_camel))
     responseObject = {
         'status': 'success',
-        'data': extras
+        'data': data
     }
     return make_response(jsonify(responseObject)), 200

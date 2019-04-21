@@ -18,7 +18,7 @@ class ExtrasContent extends React.Component {
           <ul>
             {extras.items.data.map((extra, index) =>
               <li key={extra.id}>
-                  {extra.name + ' ' + extra.last_name}
+                  {extra.name + ' ' + extra.lastName}
               </li>
             )}
           </ul>

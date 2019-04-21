@@ -52,6 +52,8 @@ class Extra(SurrogatePK, Model):
     sea_experience = Column(db.Boolean(), nullable=True)
     waiter_experience = Column(db.Boolean(), nullable=True)
     other_experience = Column(db.String(80), nullable=True)
+    face_image = Column(db.String(255), nullable=True)
+    body_image = Column(db.String(255), nullable=True)
     created_at = Column(db.DateTime, nullable=True,
                         default=dt.datetime.utcnow)
 

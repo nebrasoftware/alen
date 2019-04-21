@@ -2,7 +2,8 @@ import { authHeader, config } from '../_helpers';
 
 export const extraService = {
     addExtra,
-    getAllExtras
+    getAllExtras,
+    uploadImages
 };
 
 function addExtra(extra) {
@@ -13,6 +14,16 @@ function addExtra(extra) {
     };
 
     return fetch(config.apiUrl + '/extras/add', requestOptions).then(handleResponse, handleError);
+}
+
+function uploadImages(image) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(image)
+    };
+
+    return fetch(config.apiUrl + '/utils/fileUpload', requestOptions).then(handleResponse, handleError);
 }
 
 function getAllExtras() {

@@ -14,6 +14,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # SQLALCHEMY_DATABASE_URI = 'mysql://alen:Alen2019!@199.247.17.73/alendb?charset=utf8'
     SQLALCHEMY_DATABASE_URI = 'mysql://alen:Alen2019!@199.247.17.73/alendb'
+    UPLOAD_FOLDER = 'images'
+    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 class ProdConfig(Config):

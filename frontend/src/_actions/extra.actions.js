@@ -4,7 +4,7 @@ import { extraService } from '../_services';
 export const extraActions = {
     add,
     getAll,
-    uploadImages
+    uploadImage
 };
 
 function add(extra) {
@@ -27,13 +27,13 @@ function add(extra) {
     function failure(error) { return { type: extraConstants.ADD_FAILURE, error } }
 }
 
-function uploadImages() {
+function uploadImage(data) {
     return dispatch => {
         dispatch(request());
 
-        extraService.uploadImages(image)
+        extraService.uploadImage(data)
             .then(
-                image => {
+                data => {
                     dispatch(success());
                 },
                 error => {
@@ -42,8 +42,8 @@ function uploadImages() {
             );
     };
 
-    function request(image) { return { type: extraConstants.UPLOAD_IMAGE_REQUEST, image } }
-    function success(image) { return { type: extraConstants.UPLOAD_IMAGE_SUCCESS, image } }
+    function request(data) { return { type: extraConstants.UPLOAD_IMAGE_REQUEST, data } }
+    function success(data) { return { type: extraConstants.UPLOAD_IMAGE_SUCCESS, data } }
     function failure(error) { return { type: extraConstants.UPLOAD_IMAGE_FAILURE, error } }
 }
 

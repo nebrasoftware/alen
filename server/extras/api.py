@@ -12,7 +12,7 @@ extra_schema = ExtraSchema()
 @blueprint.route("/add", methods=['POST'])
 def add():
     data = convert_json(request.get_json(), camel_to_snake)
-    print(data)
+    # print(data)
     extra = Extra.query.filter_by(vat_number=data.get('vat_number')).first()
     if not extra:
         try:

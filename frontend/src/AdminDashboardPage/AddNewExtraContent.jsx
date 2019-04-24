@@ -37,8 +37,8 @@ class AddNewExtraContent extends React.Component {
         seaExperience: 0,
         waiterExperience: 0,
         otherExperience: '',
-        faceImageUrl: '',
-        bodyImageUrl: ''
+        faceImage: '',
+        bodyImage: ''
       },
       submitted: false
     };
@@ -51,32 +51,15 @@ class AddNewExtraContent extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const images = new FormData;
     const { extra } = this.state;
-
-    if (target.type === 'file') {
-      images.append('file', name.files[0]);
-
-      this.setState({
-        extra: {
-          ...extra, 
-          [name]: images.file
-        }
-      });
-    } else {
-      this.setState({
-        extra: {
-          ...extra,
-          [name]: value
-        }
-      });
-    }
-
-
-    console.log(this.state);
-    console.log(images);
+    
+    this.setState({
+      extra: {
+        ...extra,
+        [name]: value
+      }
+    });
   }
-
 
   handleSubmit(event) {
     event.preventDefault();
@@ -87,9 +70,12 @@ class AddNewExtraContent extends React.Component {
     if (extra.insuranceNumber && extra.vatNumber) {
       dispatch(extraActions.add(extra));
     }
-    // if (extra.faceImage || extra.bodyImageUrl) {
-    //   dispatch(extraActions.uploadImage(extra))
-    // }
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+
+    dispatch(extraActions.uploadImage(data));
+
   }
 
   componentDidMount() {
@@ -117,12 +103,13 @@ class AddNewExtraContent extends React.Component {
                 <div className="form-row">
                   <div className="col-12 col-md-6">
                     <label htmlFor="">Fotografía de la cara</label>
-                    <input type="file" className="form-control" name="faceImageUrl" value={extra.faceImageUrl} onChange={this.handleChange}/>
+                    {/* <input type="file" className="form-control" name="faceImageUrl" value={extra.faceImageUrl} onChange={this.handleUploadImage}/> */}
+                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
                   </div>
-                  <div className="col-12 col-md-6">
+                  {/* <div className="col-12 col-md-6">
                     <label htmlFor="">Fotografía del cuerpo</label>
-                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" className="form-control" name="bodyImageUrl" value={extra.bodyImageUrl} onChange={this.handleChange}/>
-                  </div>
+                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" className="form-control" name="bodyImageUrl" value={extra.bodyImageUrl} onChange={this.handleUploadImage}/>
+                  </div> */}
                 </div>
                 <div className="form-row">
                   <div className="col-12 col-md-6">

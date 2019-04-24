@@ -3,7 +3,7 @@ import { authHeader, config } from '../_helpers';
 export const extraService = {
     addExtra,
     getAllExtras,
-    uploadImages
+    uploadImage
 };
 
 function addExtra(extra) {
@@ -16,14 +16,14 @@ function addExtra(extra) {
     return fetch(config.apiUrl + '/extras/add', requestOptions).then(handleResponse, handleError);
 }
 
-function uploadImages(image) {
+function uploadImage(data) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(image)
+        body: data
     };
 
-    return fetch(config.apiUrl + '/utils/fileUpload', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/utils/upload_image', requestOptions).then(handleResponse, handleError);
 }
 
 function getAllExtras() {

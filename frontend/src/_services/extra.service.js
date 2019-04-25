@@ -19,7 +19,7 @@ function addExtra(extra) {
 function uploadImage(data) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'multipart/form-data' },
         body: data
     };
 

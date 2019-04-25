@@ -72,9 +72,20 @@ class AddNewExtraContent extends React.Component {
     }
 
     const data = new FormData();
+    console.log(this.uploadInput.files[0]);
     data.append('file', this.uploadInput.files[0]);
 
-    dispatch(extraActions.uploadImage(data));
+    //dispatch(extraActions.uploadImage(data));
+
+    fetch('http://localhost:5000/api/v1/utils/upload_image', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {
+      // response.json().then((body) => {
+      //   this.setState({ imageURL: `http://localhost:5000/api/v1/${body.file}` });
+      // });
+      console.log('enviada');
+});
 
   }
 
@@ -104,7 +115,7 @@ class AddNewExtraContent extends React.Component {
                   <div className="col-12 col-md-6">
                     <label htmlFor="">Fotografía de la cara</label>
                     {/* <input type="file" className="form-control" name="faceImageUrl" value={extra.faceImageUrl} onChange={this.handleUploadImage}/> */}
-                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="image" />
                   </div>
                   {/* <div className="col-12 col-md-6">
                     <label htmlFor="">Fotografía del cuerpo</label>

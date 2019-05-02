@@ -70,7 +70,7 @@ def add():
 
 
 @blueprint.route("/get_all", methods=['GET'])
-def getAll():
+def get_all():
     extras = Extra.query.all()
     extras = extras_schema.dump(extras).data
     data = []
@@ -79,5 +79,16 @@ def getAll():
     responseObject = {
         'status': 'success',
         'data': data
+    }
+    return make_response(jsonify(responseObject)), 200
+
+
+@blueprint.route("/get_new_id", methods=['GET'])
+def get_new_id():
+    extra = Extra.query.order_by(Extra.id.desc()).first()
+    extra_id = extra.id + 1
+    responseObject = {
+        'status': 'success',
+        'data': extra_id
     }
     return make_response(jsonify(responseObject)), 200

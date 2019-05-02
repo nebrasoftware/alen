@@ -9,12 +9,14 @@ import { wear } from './wear.reducer';
 import { body } from './body.reducer';
 import { populations } from './populations.reducer';
 import { drivingLicenses } from './drivingLicenses.reducer';
+import { addExtra } from './addExtra.reducer';
 
 const rootReducer = combineReducers({
   authentication,
   registration,
-  extras,
   users,
+  extras,
+  addExtra,
   alert,
   wear,
   body,

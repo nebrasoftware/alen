@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { extraActions, wearActions, bodyActions, populationsActions, drivingLicensesActions } from '../_actions';
+import { extraService } from '../_services';
 
 class AddNewExtraContent extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class AddNewExtraContent extends React.Component {
 
     this.state = {
       extra: {
+        id: '',
         name: '',
         lastName: '',
         insuranceNumber: '',
@@ -59,6 +61,8 @@ class AddNewExtraContent extends React.Component {
         [name]: value
       }
     });
+
+    console.log(extra);
   }
 
   handleSubmit(event) {
@@ -72,10 +76,7 @@ class AddNewExtraContent extends React.Component {
     }
 
     const data = new FormData();
-    console.log(this.uploadInput.files[0]);
     data.append('file', this.uploadInput.files[0]);
-
-    //dispatch(extraActions.uploadImage(data));
 
     fetch('http://localhost:5000/api/v1/utils/upload_image', {
       method: 'POST',
@@ -90,19 +91,32 @@ class AddNewExtraContent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(wearActions.getTshirtSizes());
-    this.props.dispatch(wearActions.getTrouserSizes());
-    this.props.dispatch(wearActions.getFootSizes());
-    this.props.dispatch(wearActions.getFootSizes());
-    this.props.dispatch(bodyActions.getHairColors());
-    this.props.dispatch(bodyActions.getEyesColors());
+    // this.props.dispatch(wearActions.getTshirtSizes());
+    // this.props.dispatch(wearActions.getTrouserSizes());
+    // this.props.dispatch(wearActions.getFootSizes());
+    // this.props.dispatch(wearActions.getFootSizes());
+    // this.props.dispatch(bodyActions.getHairColors());
+    // this.props.dispatch(bodyActions.getEyesColors());
     // this.props.dispatch(populationsActions.getAllLocalities());
-    this.props.dispatch(populationsActions.getAllProvinces());
-    this.props.dispatch(drivingLicensesActions.getAllLicenses());
+    // this.props.dispatch(populationsActions.getAllProvinces());
+    // this.props.dispatch(drivingLicensesActions.getAllLicenses());
+    this.props.dispatch(extraActions.getNewId());
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.addExtra !== prevProps.addExtra) {
+      const { extra } = this.state;
+      setTimeout(() => this.setState({
+        extra: {
+          ...extra,
+          id: this.props.addExtra.id.data
+        }
+      }), 1000)
+    }
   }
 
   render() {
-    const { adding, wear, body, populations, drivingLicenses } = this.props;
+    const { adding, wear, body, populations, drivingLicenses, addExtra } = this.props;
     const { extra, submitted } = this.state;
     return (
       <div>
@@ -113,14 +127,22 @@ class AddNewExtraContent extends React.Component {
               <form name="addExtraForm" onSubmit={this.handleSubmit}>
                 <div className="form-row">
                   <div className="col-12 col-md-6">
-                    <label htmlFor="">Fotografía de la cara</label>
-                    {/* <input type="file" className="form-control" name="faceImageUrl" value={extra.faceImageUrl} onChange={this.handleUploadImage}/> */}
-                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="image" />
+                    <div className="form-group">
+                      { extra.loading && <em>Loading provinces...</em> }
+                      { extra.id &&
+                        <input type="text" className="form-control" name="id" value={extra.id} onChange={this.handleChange} disabled/>
+                      }
+                    </div>
                   </div>
-                  {/* <div className="col-12 col-md-6">
-                    <label htmlFor="">Fotografía del cuerpo</label>
-                    <input ref={(ref) => { this.uploadInput = ref; }} type="file" className="form-control" name="bodyImageUrl" value={extra.bodyImageUrl} onChange={this.handleUploadImage}/>
-                  </div> */}
+                </div>
+                <div className="form-row">
+                  <div className="col-12 col-md-6">
+                    <div className="custom-file">
+                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="image" className="custom-file-input"/>
+                      <label className="custom-file-label">Fotografía de la cara</label>
+                    </div>
+
+                  </div>
                 </div>
                 <div className="form-row">
                   <div className="col-12 col-md-6">
@@ -452,9 +474,10 @@ class AddNewExtraContent extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { adding, wear, body, populations, drivingLicenses } = state;
+  const { adding, wear, body, populations, drivingLicenses, addExtra } = state;
   return {
     adding,
+    addExtra,
     wear,
     body,
     populations,

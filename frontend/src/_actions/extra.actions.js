@@ -4,6 +4,7 @@ import { extraService } from '../_services';
 export const extraActions = {
     add,
     getAll,
+    getNewId,
     uploadImage
 };
 
@@ -61,4 +62,20 @@ function getAll() {
     function request() { return { type: extraConstants.GETALL_REQUEST } }
     function success(extras) { return { type: extraConstants.GETALL_SUCCESS, extras } }
     function failure(error) { return { type: extraConstants.GETALL_FAILURE, error } }
+}
+
+function getNewId() {
+    return dispatch => {
+        dispatch(request());
+
+        extraService.getNewId()
+            .then(
+                id => dispatch(success(id)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: extraConstants.GET_NEW_ID_REQUEST } }
+    function success(id) { return { type: extraConstants.GET_NEW_ID_SUCCESS, id } }
+    function failure(error) { return { type: extraConstants.GET_NEW_ID_FAILURE, error } }
 }

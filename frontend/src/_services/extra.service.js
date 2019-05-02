@@ -3,7 +3,8 @@ import { authHeader, config } from '../_helpers';
 export const extraService = {
     addExtra,
     getAllExtras,
-    uploadImage
+    uploadImage,
+    getNewId
 };
 
 function addExtra(extra) {
@@ -33,6 +34,15 @@ function getAllExtras() {
     };
 
     return fetch(config.apiUrl + '/extras/get_all', requestOptions).then(handleResponse, handleError);
+}
+
+function getNewId() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(config.apiUrl + '/extras/get_new_id', requestOptions).then(handleResponse, handleError);
 }
 
 function handleResponse(response) {

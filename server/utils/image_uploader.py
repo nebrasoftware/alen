@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, request, redirect, url_for
+from flask import Blueprint, request, jsonify, make_response
 from werkzeug.utils import secure_filename
 from flask import current_app
 
@@ -7,32 +7,48 @@ from flask import current_app
 blueprint = Blueprint('utils', __name__, url_prefix='/api/v1/utils')
 
 
-def allowed_file(name):
-    return '.' in name and \
-           name.rsplit('.', 1)[1].lower() \
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() \
                in current_app.config.get('ALLOWED_EXTENSIONS')
 
 
-@blueprint.route('/upload_image', methods=['GET', 'POST'])
+@blueprint.route('/upload_image', methods=['POST'])
 def file_upload():
     if request.method == 'POST':
         if 'file' not in request.files:
-            return redirect(request.url)
+            responseObject = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(jsonify(responseObject)), 401
         file = request.files['file']
-        if file.name == '':
-            return redirect(request.url)
-        if file and allowed_file(file.name):
-            name = secure_filename(file.name)
-            file.save(os.path.join(current_app.config.get('UPLOAD_FOLDER'),
-                                   name))
-            return redirect(url_for('uploaded_file',
-                                    name=name))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+        try:
+            if file.filename == '':
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'Some error occurred. Please try again.'
+                }
+                return make_response(jsonify(responseObject)), 401
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(current_app.config.get('UPLOAD_FOLDER'),
+                                       filename))
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Succesfully added'
+                }
+                return make_response(jsonify(responseObject)), 201
+        except Exception as e:
+            print(e)
+            responseObject = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(jsonify(responseObject)), 401
+    else:
+        responseObject = {
+            'status': 'fail',
+            'message': 'Some error occurred. Please try again.'
+        }
+        return make_response(jsonify(responseObject)), 401

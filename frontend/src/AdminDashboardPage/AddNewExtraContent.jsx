@@ -8,6 +8,8 @@ class AddNewExtraContent extends React.Component {
   constructor(props) {
     super(props);
 
+    this.images = [];
+
     this.state = {
       extra: {
         id: '',
@@ -46,11 +48,13 @@ class AddNewExtraContent extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleUploadImage = this.handleUploadImage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
     const target = event.target;
+    console.log(target);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { extra } = this.state;
@@ -65,6 +69,21 @@ class AddNewExtraContent extends React.Component {
     console.log(extra);
   }
 
+  handleUploadImage(event) {
+    const target = event.target;
+    const name = target.name;
+    console.log(name);
+    console.log(this.images);
+
+    this.images = this.images.map((image) => {
+      return image.name !== name;
+    }
+
+    this.images.push(target);
+
+    console.log(this.images);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -75,8 +94,10 @@ class AddNewExtraContent extends React.Component {
       dispatch(extraActions.add(extra));
     }
 
+    const name = this.state.extra.id + this.uploadInput.name + '.jpg';
+    console.log(name);
     const data = new FormData();
-    data.append('file', this.uploadInput.files[0]);
+    data.append('file', this.uploadInput.files[0], name);
 
     fetch('http://localhost:5000/api/v1/utils/upload_image', {
       method: 'POST',
@@ -91,15 +112,15 @@ class AddNewExtraContent extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(wearActions.getTshirtSizes());
-    // this.props.dispatch(wearActions.getTrouserSizes());
-    // this.props.dispatch(wearActions.getFootSizes());
-    // this.props.dispatch(wearActions.getFootSizes());
-    // this.props.dispatch(bodyActions.getHairColors());
-    // this.props.dispatch(bodyActions.getEyesColors());
+    this.props.dispatch(wearActions.getTshirtSizes());
+    this.props.dispatch(wearActions.getTrouserSizes());
+    this.props.dispatch(wearActions.getFootSizes());
+    this.props.dispatch(wearActions.getFootSizes());
+    this.props.dispatch(bodyActions.getHairColors());
+    this.props.dispatch(bodyActions.getEyesColors());
     // this.props.dispatch(populationsActions.getAllLocalities());
-    // this.props.dispatch(populationsActions.getAllProvinces());
-    // this.props.dispatch(drivingLicensesActions.getAllLicenses());
+    this.props.dispatch(populationsActions.getAllProvinces());
+    this.props.dispatch(drivingLicensesActions.getAllLicenses());
     this.props.dispatch(extraActions.getNewId());
   }
 
@@ -116,7 +137,7 @@ class AddNewExtraContent extends React.Component {
   }
 
   render() {
-    const { adding, wear, body, populations, drivingLicenses, addExtra } = this.props;
+    const { adding, wear, body, populations, drivingLicenses } = this.props;
     const { extra, submitted } = this.state;
     return (
       <div>
@@ -138,7 +159,7 @@ class AddNewExtraContent extends React.Component {
                 <div className="form-row">
                   <div className="col-12 col-md-6">
                     <div className="custom-file">
-                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="image" className="custom-file-input"/>
+                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="faceImage" className="custom-file-input" onChange={this.handleUploadImage}/>
                       <label className="custom-file-label">Fotografía de la cara</label>
                     </div>
 

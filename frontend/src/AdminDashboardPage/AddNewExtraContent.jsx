@@ -54,11 +54,10 @@ class AddNewExtraContent extends React.Component {
 
   handleChange(event) {
     const target = event.target;
-    console.log(target);
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     const { extra } = this.state;
-    
+
     this.setState({
       extra: {
         ...extra,
@@ -72,16 +71,9 @@ class AddNewExtraContent extends React.Component {
   handleUploadImage(event) {
     const target = event.target;
     const name = target.name;
-    console.log(name);
-    console.log(this.images);
 
-    this.images = this.images.map((image) => {
-      return image.name !== name;
-    }
-
+    this.images = this.images.filter((el) => el.name !== name);
     this.images.push(target);
-
-    console.log(this.images);
   }
 
   handleSubmit(event) {
@@ -90,25 +82,41 @@ class AddNewExtraContent extends React.Component {
     this.setState({ submitted: true });
     const { extra } = this.state;
     const { dispatch } = this.props;
+
     if (extra.insuranceNumber && extra.vatNumber) {
+      this.images.forEach((el) => {
+        const extension = (/[.]/.exec(el.files[0].type)) ? + /[^.]+$/.exec(el.files[0].type)[0] : undefined;
+        const name = this.state.extra.id + el.name + extension;
+        console.log(name);
+        const data = new FormData();
+
+        data.append('file', el.files[0], name);
+
+        fetch('http://localhost:5000/api/v1/utils/upload_image', {
+          method: 'POST',
+          body: data,
+        }).then((response) => {
+          console.log('enviada');
+        })
+      });
+
       dispatch(extraActions.add(extra));
     }
 
-    const name = this.state.extra.id + this.uploadInput.name + '.jpg';
-    console.log(name);
-    const data = new FormData();
-    data.append('file', this.uploadInput.files[0], name);
+    // const name = this.state.extra.id + this.uploadInput.name + '.jpg';
+    // console.log(name);
+    // const data = new FormData();
+    // data.append('file', this.uploadInput.files[0], name);
 
-    fetch('http://localhost:5000/api/v1/utils/upload_image', {
-      method: 'POST',
-      body: data,
-    }).then((response) => {
-      // response.json().then((body) => {
-      //   this.setState({ imageURL: `http://localhost:5000/api/v1/${body.file}` });
-      // });
-      console.log('enviada');
-});
-
+    // fetch('http://localhost:5000/api/v1/utils/upload_image', {
+    //   method: 'POST',
+    //   body: data,
+    // }).then((response) => {
+    //   response.json().then((body) => {
+    //     this.setState({ imageURL: `http://localhost:5000/api/v1/${body.file}` });
+    //   });
+    //   console.log('enviada');
+    // });
   }
 
   componentDidMount() {
@@ -149,9 +157,9 @@ class AddNewExtraContent extends React.Component {
                 <div className="form-row">
                   <div className="col-12 col-md-6">
                     <div className="form-group">
-                      { extra.loading && <em>Loading provinces...</em> }
-                      { extra.id &&
-                        <input type="text" className="form-control" name="id" value={extra.id} onChange={this.handleChange} disabled/>
+                      {extra.loading && <em>Loading provinces...</em>}
+                      {extra.id &&
+                        <input type="text" className="form-control" name="id" value={extra.id} onChange={this.handleChange} disabled />
                       }
                     </div>
                   </div>
@@ -159,7 +167,7 @@ class AddNewExtraContent extends React.Component {
                 <div className="form-row">
                   <div className="col-12 col-md-6">
                     <div className="custom-file">
-                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="faceImage" className="custom-file-input" onChange={this.handleUploadImage}/>
+                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="faceImage" className="custom-file-input" onChange={this.handleUploadImage} />
                       <label className="custom-file-label">Fotografía de la cara</label>
                     </div>
 

@@ -64,14 +64,11 @@ class AddNewExtraContent extends React.Component {
         [name]: value
       }
     });
-
-    console.log(extra);
   }
 
   handleUploadImage(event) {
     const target = event.target;
     const name = target.name;
-
     this.images = this.images.filter((el) => el.name !== name);
     this.images.push(target);
   }
@@ -85,18 +82,15 @@ class AddNewExtraContent extends React.Component {
 
     if (extra.insuranceNumber && extra.vatNumber) {
       this.images.forEach((el) => {
-        const extension = (/[.]/.exec(el.files[0].type)) ? + /[^.]+$/.exec(el.files[0].type)[0] : undefined;
+        const extension = '.' + (el.files[0].name).split('.').pop();
         const name = this.state.extra.id + el.name + extension;
-        console.log(name);
         const data = new FormData();
 
         data.append('file', el.files[0], name);
 
         fetch('http://localhost:5000/api/v1/utils/upload_image', {
           method: 'POST',
-          body: data,
-        }).then((response) => {
-          console.log('enviada');
+          body: data
         })
       });
 
@@ -167,10 +161,15 @@ class AddNewExtraContent extends React.Component {
                 <div className="form-row">
                   <div className="col-12 col-md-6">
                     <div className="custom-file">
-                      <input ref={(ref) => { this.uploadInput = ref; }} type="file" name="faceImage" className="custom-file-input" onChange={this.handleUploadImage} />
+                      <input ref={(ref) => { this.faceImage = ref; }} type="file" name="faceImage" className="custom-file-input" onChange={this.handleUploadImage} />
                       <label className="custom-file-label">Fotografía de la cara</label>
                     </div>
-
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="custom-file">
+                      <input ref={(ref) => { this.bodyImage = ref; }} type="file" name="bodyImage" className="custom-file-input" onChange={this.handleUploadImage} />
+                      <label className="custom-file-label">Fotografía del cuerpo</label>
+                    </div>
                   </div>
                 </div>
                 <div className="form-row">

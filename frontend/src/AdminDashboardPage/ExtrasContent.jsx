@@ -13,6 +13,7 @@ class ExtrasContent extends React.Component {
     return (
       <div>
         <h1>Extras Content</h1>
+        
         {extras.loading && <em>Loading extras...</em>}
         {extras.items &&
           <ul>

@@ -1,7 +1,11 @@
-from flask import Blueprint, jsonify, request, make_response
+from flask import (Blueprint, jsonify, request, make_response)
+from sqlalchemy import and_
 from .models import Extra, ExtraSchema
 from server.extensions import db
 from server.database import convert_json, camel_to_snake, snake_to_camel
+from server.database import calculate_age
+from datetime import datetime
+
 
 blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
 
@@ -90,5 +94,36 @@ def get_new_id():
     responseObject = {
         'status': 'success',
         'data': extra_id
+    }
+    return make_response(jsonify(responseObject)), 200
+
+
+@blueprint.route("/get_extras_filtered", methods=['GET', 'POST'])
+def get_extras_filtered():
+    filters = convert_json(request.get_json(), camel_to_snake)
+    print(filters)
+    min_age_str = filters.get('age_filter')[0]
+    min_age_obj = datetime.strptime(min_age_str, "%Y-%m-%d")
+    max_age_str = filters.get('age_filter')[1]
+    max_age_obj = datetime.strptime(max_age_str, "%Y-%m-%d")
+    extras = Extra.query.filter(
+        Extra.eye_color_id == filters.get('eyes_color_filter'),
+        Extra.hair_color_id == filters.get('hair_color_filter'),
+        and_(Extra.weight >= filters.get('weight_filter')[0],
+             Extra.weight <= filters.get('weight_filter')[1]),
+        and_(Extra.height >= filters.get('height_filter')[0],
+             Extra.height <= filters.get('height_filter')[1]),
+        Extra.driving_license_type_id == filters.get('driving_license_filter'),
+        Extra.province_id == filters.get('province_id'),
+        and_(Extra.age >= calculate_age(min_age_obj),
+             Extra.age <= calculate_age(max_age_obj)),
+    ).all()
+    extras = extras_schema.dump(extras).data
+    data = []
+    for e in extras:
+        data.append(convert_json(e, snake_to_camel))
+    responseObject = {
+        'status': 'success',
+        'data': data
     }
     return make_response(jsonify(responseObject)), 200

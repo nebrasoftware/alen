@@ -2,7 +2,6 @@
 """Database module, including the SQLAlchemy database object and
 DB-related utilities."""
 import re
-from datetime import date
 from .compat import basestring
 from .extensions import db
 
@@ -92,14 +91,5 @@ def snake_to_camel(name):
 def convert_json(d, convert):
     new_d = {}
     for k, v in d.items():
-        if isinstance(v, dict):
-            new_d[convert(k)] = convert_json(v, convert)
-        else:
-            v
+        new_d[convert(k)] = convert_json(v, convert) if isinstance(v, dict) else v
     return new_d
-
-
-def calculate_age(born):
-    today = date.today()
-    return today.year - born.year - \
-        ((today.month, today.day) < (born.month, born.day))

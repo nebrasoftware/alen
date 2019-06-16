@@ -1,7 +1,9 @@
 from flask import (Blueprint, jsonify, request, make_response)
+from sqlalchemy import case
 from .models import Extra, ExtraSchema
 from server.extensions import db
 from server.database import convert_json, camel_to_snake, snake_to_camel
+from server.database import format_date
 
 
 blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
@@ -98,26 +100,66 @@ def get_new_id():
 @blueprint.route("/get_extras_filtered", methods=['GET', 'POST'])
 def get_extras_filtered():
     filters = convert_json(request.get_json(), camel_to_snake)
-    print(filters)
-    # extras = Extra.query.filter(
-    #     Extra.eye_color_id == filters.get('eyes_color_filter'),
-    #     Extra.hair_color_id == filters.get('hair_color_filter'),
-    #     Extra.weight.between(filters.get('weight_filter')[0],
-    #                          filters.get('weight_filter')[1]),
-    #     Extra.height.between(filters.get('height_filter')[0],
-    #                          filters.get('height_filter')[1]),
-    #     Extra.driving_license_type_id == filters.get(
-    #                         'driving_license_type_id_filter'),
-    #     Extra.province_id == filters.get('province_id_filter'),
-    #     Extra.birthday.between(filters.get('age_filter')[0],
-    #                            filters.get('age_filter')[1])
-    # ).all()
-    # extras = extras_schema.dump(extras).data
-    # data = []
-    # for e in extras:
-    #     data.append(convert_json(e, snake_to_camel))
-    # responseObject = {
-    #     'status': 'success',
-    #     'data': data
-    # }
-    # return make_response(jsonify(responseObject)), 200
+    extras = Extra.query.all()
+
+    if (filters.get('eyes_color_filter')):
+        extras = Extra.query.filter(
+            Extra.eye_color_id == filters.get('eyes_color_filter')
+        ).all()
+
+    if (filters.get('hair_color_filter')):
+        extras = Extra.query.filter(
+            Extra.hair_color_id == filters.get('hair_color_filter')
+        ).all()
+
+    if (filters.get('min_weight_filter')):
+        extras = Extra.query.filter(
+            Extra.weight >= filters.get('min_weight_filter')
+        ).all()
+
+    if (filters.get('max_weight_filter')):
+        extras = Extra.query.filter(
+            Extra.weight <= filters.get('max_weight_filter')
+        ).all()
+
+    if (filters.get('min_height_filter')):
+        extras = Extra.query.filter(
+            Extra.height >= filters.get('min_height_filter')
+        ).all()
+
+    if (filters.get('max_height_filter')):
+        extras = Extra.query.filter(
+            Extra.height <= filters.get('max_height_filter')
+        ).all()
+
+    if (filters.get('province_id_filter')):
+        extras = Extra.query.filter(
+            Extra.province_id == filters.get('province_id_filter')
+        ).all()
+
+    if (filters.get('driving_license_type_filter')):
+        extras = Extra.query.filter(
+            Extra.driving_license_type_id ==
+            filters.get('driving_license_type_filter')
+        ).all()
+
+    if (filters.get('min_age_filter')):
+        extras = Extra.query.filter(
+            format_date(Extra.birthday) >= filters.get('min_age_filter')
+        ).all()
+
+    if (filters.get('max_age_filter')):
+        extras = Extra.query.filter(
+            format_date(Extra.birthday) <= filters.get('max_age_filter')
+        ).all()
+
+    extras = extras_schema.dump(extras).data
+    data = []
+
+    for e in extras:
+        data.append(convert_json(e, snake_to_camel))
+    responseObject = {
+        'status': 'success',
+        'data': data
+    }
+    return make_response(jsonify(responseObject)), 200

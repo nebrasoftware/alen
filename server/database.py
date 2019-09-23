@@ -104,6 +104,36 @@ def calculate_age(born):
 
 
 def format_date(date):
-    date_of_birth = datetime.strptime(str(date), "%Y-%m-%dT%H:%M:%S%z")
+    date_of_birth = datetime.strptime(str(date), "%Y-%m-%dT%H:%M:%S")
     age = calculate_age(date_of_birth)
     return age
+
+# from datetime import date, datetime
+
+# data = [
+#   {
+#     "address": "Rúa Peregrina 54 2B",
+#     "birthday": "1985-08-25T00:00:00+00:00",
+#     "createdAt": "2019-03-17T09:58:27+00:00",
+#     "id": 1,
+#     "insuranceNumber": "12345678911",
+#     "lastName": "Araújo",
+#     "name": "Jacobo",
+#     "phone": 644347019,
+#     "vatNumber": "77404347D"
+#   }
+# ]
+
+
+# def calculate_age(born):
+#     today = date.today()
+#     return today.year - born.year - \
+#         ((today.month, today.day) < (born.month, born.day))
+
+
+# def format_date(date):
+#     date_of_birth = datetime.strptime(str(date), "%Y-%m-%dT%H:%M:%S")
+#     age = calculate_age(date_of_birth)
+#     return age
+
+# print(format_date(data[0]['birthday'].split('+')[0]))

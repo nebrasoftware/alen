@@ -16,7 +16,7 @@ class Extra(SurrogatePK, Model):
     user = relationship('User', backref='extras')
     name = Column(db.String(80), nullable=True)
     last_name = Column(db.String(255), nullable=True)
-    birthday = Column(db.DateTime, nullable=True)
+    birthday = Column(db.DateTime(), nullable=True)
     phone = Column(db.Integer(), nullable=True)
     genre = Column(db.String(6), nullable=True)
     address = Column(db.String(200), nullable=True)
@@ -54,7 +54,7 @@ class Extra(SurrogatePK, Model):
     other_experience = Column(db.String(80), nullable=True)
     face_image = Column(db.String(255), nullable=True)
     body_image = Column(db.String(255), nullable=True)
-    created_at = Column(db.DateTime, nullable=True,
+    created_at = Column(db.DateTime(), nullable=True,
                         default=dt.datetime.utcnow)
 
     def __init__(self, vat_number, **kwargs):

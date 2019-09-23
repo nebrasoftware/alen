@@ -4,6 +4,7 @@ from .models import Extra, ExtraSchema
 from server.extensions import db
 from server.database import convert_json, camel_to_snake, snake_to_camel
 from server.database import format_date
+from datetime import date
 
 
 blueprint = Blueprint('extras', __name__, url_prefix='/api/v1/extras')
@@ -102,6 +103,15 @@ def get_extras_filtered():
     filters = convert_json(request.get_json(), camel_to_snake)
     extras = Extra.query.all()
 
+    # max_age = datetime.datetime.today() -\
+    #     datetime.timedelta(days=filters.get('max_age')*365)
+
+    max_age = filters.get('max_age')
+
+    print(max_age)
+    
+    print(date.today().year - filters.get('max_age'))
+
     if (filters.get('eyes_color_filter')):
         extras = Extra.query.filter(
             Extra.eye_color_id == filters.get('eyes_color_filter')
@@ -145,12 +155,12 @@ def get_extras_filtered():
 
     if (filters.get('min_age_filter')):
         extras = Extra.query.filter(
-            format_date(Extra.birthday) >= filters.get('min_age_filter')
+            # format_date((Extra.birthday).split('+')[0]) >= filters.get('min_age_filter')
         ).all()
 
     if (filters.get('max_age_filter')):
         extras = Extra.query.filter(
-            format_date(Extra.birthday) <= filters.get('max_age_filter')
+            # format_date((Extra.birthday).split('+')[0]) <= filters.get('max_age_filter')
         ).all()
 
     extras = extras_schema.dump(extras).data
